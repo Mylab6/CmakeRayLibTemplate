@@ -31,7 +31,7 @@ jobs:
         #mkdir -p build
         cmake -S . -B build
         which emsdk
-        cmake --build build -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DPLATFORM=Web
+        cmake  -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DPLATFORM=Web
 
         # Navigate to the src directory (this assumes main.c is in the src folder)
         
