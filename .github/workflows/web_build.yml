@@ -37,12 +37,12 @@ jobs:
         #mkdir -p build
         cmake -S . -B build
         which emsdk
-        cmake  -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE} -G "Unix Makefiles" . -DPLATFORM=Web
-
+        cmake  -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE} -G "Unix Makefiles" . -DPLATFORM=Web -B build
+        cmake --build build
         # Navigate to the src directory (this assumes main.c is in the src folder)
         
         
-        ls -R
+        #ls -R
         # Compile using emcc with WebAssembly flags
        # emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file shell.html -Os -Wall
 
@@ -50,6 +50,7 @@ jobs:
       run: |
         # Navigate to the build directory
         cd build
+        ls -R
         
         # Create a zip package of the HTML, wasm, and JS files
         zip -r raylib_web_game.zip index.html *.wasm *.js
