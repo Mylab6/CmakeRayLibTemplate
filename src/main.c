@@ -4,7 +4,7 @@
 
 int main()
 {
-    InitWindow(400, 200, "raygui - controls test suite");
+    InitWindow(400, 200, "raygui - 45678 test suite");
     SetTargetFPS(60);
  // Define the camera to look into our 3d world
     Camera3D camera = { 0 };
