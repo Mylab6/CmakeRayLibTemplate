@@ -30,14 +30,15 @@ jobs:
         # Create the build directory
         #mkdir -p build
         cmake -S . -B build
-        #cmake --build build
+        which emsdk
+        cmake --build build -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DPLATFORM=Web
 
         # Navigate to the src directory (this assumes main.c is in the src folder)
         
         
         ls -R
         # Compile using emcc with WebAssembly flags
-        emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file shell.html -Os -Wall
+       # emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file shell.html -Os -Wall
 
     - name: Package Web Build into Zip
       run: |
