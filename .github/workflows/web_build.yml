@@ -27,8 +27,10 @@ jobs:
         rm -rf build
         
         # Create the build directory
-        mkdir -p build
-        
+        #mkdir -p build
+        cmake -S . -B build
+        cmake --build build
+
         # Navigate to the src directory (this assumes main.c is in the src folder)
         cd src
         
