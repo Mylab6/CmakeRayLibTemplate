@@ -1,46 +1,88 @@
-// main.c
 #include "raylib.h"
 #include "gui.h"
+#include "math.h"
 #include "rlgl.h"
 
-int main()
-{
-    const int screenWidth = 1080; 
-    const int screenHeight = 720 ; 
-    InitWindow(screenWidth/2, screenHeight/2, "raygui - 45678 test suite");
-    SetTargetFPS(60);
- // Define the camera to look into our 3d world
+int main() {
+    // Initialize window and camera
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+    InitWindow(screenWidth, screenHeight, "Raylib Cube Rotation");
+
     Camera3D camera = { 0 };
-    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
-    camera.fovy = 45.0f;                                // Camera field-of-view Y
-    camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
-
-    Vector3 cubePosition = { 0.0f, 0.0f, 0.0f };
+    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f };
+    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
+    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    camera.fovy = 45.0f;
+    camera.projection = CAMERA_PERSPECTIVE;
     bool showMessageBox = false;
-    float time = 0.0f; 
-    while (!WindowShouldClose())
-    {
+
+
+    SetTargetFPS(60);
+
+    // Main game loop
+    while (!WindowShouldClose()) {
+        // Update rotation angle
+        static float rotationAngle = 0.0f;
+        rotationAngle += 0.5f;
+
+        // Create transformation matrix for rotation
+        #include "raylib.h" // Include the necessary header file
+
+        Matrix rotation = { 0 }; // Initialize the rotation matrix
+
+        // Set the rotation values
+        rotation.m0 = cosf(DEG2RAD * rotationAngle);
+        rotation.m1 = sinf(DEG2RAD * rotationAngle);
+        rotation.m4 = -sinf(DEG2RAD * rotationAngle);
+        rotation.m5 = cosf(DEG2RAD * rotationAngle);
+        rotation.m10 = 1.0f;
+
+
+        // Begin drawing
         BeginDrawing();
-        ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
-        Vector2 centre = {(float)screenWidth/2 , (float)screenHeight/2};
-        // Call the GUI rendering function
         RenderGUI(&showMessageBox);
+
+        ClearBackground(RAYWHITE);
+
+        // Begin 3D mode with camera
+        BeginMode3D(camera);
         
-            BeginMode3D(camera);
-                //rlTranslatef(centre.x, centre.y, 0 );
-                //rlRotatef(time * 50, 0, 0,-1); 
-                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
-                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
+        // Apply transformation matrix
+        rlPushMatrix();
+        rlMultMatrixf((float*)&rotation);
 
-                DrawGrid(10, 1.0f);
+        // Draw cube
+        DrawCube(
+            (Vector3){ 0.0f, 0.0f, 0.0f }, // Position
+            2.0f, 2.0f, 2.0f,              // Size
+            RED                            // Color
+        );
 
-            EndMode3D();
+        // Draw cube wires
+        DrawCubeWires(
+            (Vector3){ 0.0f, 0.0f, 0.0f }, // Position
+            2.0f, 2.0f, 2.0f,              // Size
+            MAROON                         // Color
+        );
 
+        rlPopMatrix();
+
+        // Draw grid (for reference)
+        DrawGrid(10, 1.0f);
+
+        // End 3D mode
+        EndMode3D();
+
+        // Draw text
+        DrawText("Press ESC to exit", 10, 10, 20, GRAY);
+
+        // End drawing
         EndDrawing();
     }
 
+    // Close window and OpenGL context
     CloseWindow();
+
     return 0;
 }
