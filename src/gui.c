@@ -4,7 +4,7 @@
 // Function to handle rendering and interactions of the GUI
 void RenderGUI(bool *showMessageBox)
 {
-    if (GuiButton((Rectangle){ 24, 24, 120, 30 }, "#191#Show Message"))
+    if (GuiButton((Rectangle){ 24, 24, 120, 30 }, "#191#Show 4567 Message"))
         *showMessageBox = true;
 
     if (*showMessageBox)
