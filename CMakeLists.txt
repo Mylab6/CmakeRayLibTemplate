@@ -20,6 +20,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raygui)
 
+FetchContent_Declare(
+  physac
+  GIT_REPOSITORY https://github.com/victorfisac/Physac.git
+  GIT_TAG        master # You can specify a particular tag, branch, or commit
+)
+
+# Fetch Physac
+FetchContent_MakeAvailable(physac)
+
+include_directories(${physac_SOURCE_DIR}/src)
+
 # Include the raygui header path
 include_directories(${raygui_SOURCE_DIR}/src)
 
