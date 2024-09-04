@@ -26,7 +26,7 @@ int main()
 
                 if (result >= 0) showMessageBox = false;
             }
-
+    
         EndDrawing();
     }
 
