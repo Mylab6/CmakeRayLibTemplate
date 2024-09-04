@@ -22,7 +22,7 @@ jobs:
       id: EmSdk
       run: echo "EMSDK_PATH=$(which emsdk)" >> $GITHUB_ENV
     - name: Install Dependencies
-      run: sudo apt-get install -y build-essential make ninja libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev cmake make wayland-protocols libwayland-dev libxkbcommon-dev libglfw3-dev
+      run: sudo apt-get install -y build-essential make ninja-build libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev cmake make wayland-protocols libwayland-dev libxkbcommon-dev libglfw3-dev
 
 
     - name: Compile Raylib for Web
