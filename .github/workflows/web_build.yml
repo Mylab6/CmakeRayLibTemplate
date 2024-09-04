@@ -26,8 +26,10 @@ jobs:
         # Ensure the build directory is clean
         rm -rf build
         
-        # Create the build directory and navigate to source
+        # Create the build directory
         mkdir -p build
+        
+        # Navigate to the src directory (this assumes main.c is in the src folder)
         cd src
         
         # Compile using emcc with WebAssembly flags
@@ -35,8 +37,10 @@ jobs:
 
     - name: Package Web Build into Zip
       run: |
-        # Create a zip package of the HTML, wasm, and JS files
+        # Navigate to the build directory
         cd build
+        
+        # Create a zip package of the HTML, wasm, and JS files
         zip -r raylib_web_game.zip index.html *.wasm *.js
 
     - name: Upload Web Build as Artifact
