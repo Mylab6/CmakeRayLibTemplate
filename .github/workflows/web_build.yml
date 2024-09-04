@@ -1,4 +1,4 @@
-name: WebAssembly
+name: Build and Upload Raylib WebAssembly Game
 
 on:
   push:
@@ -7,31 +7,40 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-    - name: Setup emsdk
+    - name: Setup Emscripten SDK
       uses: mymindstorm/setup-emsdk@v14
       with:
-        version: 3.1.64
-        actions-cache-folder: 'emsdk-cache'
+        version: latest
 
-    - name: Build Game as WebAssembly
+    - name: Install Dependencies
+      run: sudo apt-get install -y cmake make
+
+    - name: Compile Raylib for Web
       run: |
+        # Ensure the build directory is clean
+        rm -rf build
+        
+        # Create the build directory and navigate to source
         mkdir -p build
         cd src
-        emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file shell.html
+        
+        # Compile using emcc with WebAssembly flags
+        emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file ../shell.html -Os -Wall
 
-    - name: Generate ZIP file
+    - name: Package Web Build into Zip
       run: |
+        # Create a zip package of the HTML, wasm, and JS files
         cd build
-        zip -r game.zip *
+        zip -r raylib_web_game.zip index.html *.wasm *.js
 
-    - name: Upload ZIP Artifact
+    - name: Upload Web Build as Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: game.zip
-        path: ./build/game.zip
+        name: raylib_web_game
+        path: build/raylib_web_game.zip
