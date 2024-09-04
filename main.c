@@ -1,10 +1,13 @@
 // main.c
 #include "raylib.h"
 #include "gui.h"
+#include "rlgl.h"
 
 int main()
 {
-    InitWindow(400, 200, "raygui - 45678 test suite");
+    const int screenWidth = 1080; 
+    const int screenHeight = 720 ; 
+    InitWindow(screenWidth/2, screenHeight/2, "raygui - 45678 test suite");
     SetTargetFPS(60);
  // Define the camera to look into our 3d world
     Camera3D camera = { 0 };
@@ -16,17 +19,18 @@ int main()
 
     Vector3 cubePosition = { 0.0f, 0.0f, 0.0f };
     bool showMessageBox = false;
-
+    float time = 0.0f; 
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
-
+        Vector2 centre = {(float)screenWidth/2 , (float)screenHeight/2};
         // Call the GUI rendering function
         RenderGUI(&showMessageBox);
         
             BeginMode3D(camera);
-
+                //rlTranslatef(centre.x, centre.y, 0 );
+                //rlRotatef(time * 50, 0, 0,-1); 
                 DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
                 DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
 
