@@ -37,7 +37,7 @@ jobs:
         
         ls -R
         # Compile using emcc with WebAssembly flags
-        emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file ../shell.html -Os -Wall
+        emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file shell.html -Os -Wall
 
     - name: Package Web Build into Zip
       run: |
