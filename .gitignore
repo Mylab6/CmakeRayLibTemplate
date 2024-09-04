@@ -1,0 +1,37 @@
+# Build directories
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# MacOS specific files
+.DS_Store
+
+# Compiled binary files
+*.out
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Object files and static libraries
+*.o
+*.obj
+*.lib
+*.a
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Generated IDE files
+*.idea/
+*.vs/
+*.vscode/
+*.xcodeproj/
+
+# Package management files
+/deps/
+_deps/
+
