@@ -39,7 +39,7 @@ include_directories(${physac_SOURCE_DIR}/src)
 include_directories(${raygui_SOURCE_DIR}/src)
 
 # Add the executable
-add_executable(my_game main.c  gui.c, gameobject.c)
+add_executable(my_game main.c gui.c gameobject.c tank.c)
 
 # Link raylib to the project
 target_link_libraries(my_game raylib)
