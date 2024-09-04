@@ -18,6 +18,9 @@ jobs:
       with:
         version: latest
 
+    - name: Get EmSDKPath
+      id: EmSdk
+      run: echo "EMSDK_PATH=$(which emsdk)" >> $GITHUB_ENV
     - name: Install Dependencies
       run: sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev cmake make wayland-protocols libwayland-dev libxkbcommon-dev libglfw3-dev
 
@@ -31,7 +34,7 @@ jobs:
         #mkdir -p build
         cmake -S . -B build
         which emsdk
-        cmake  -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DPLATFORM=Web
+        cmake  -DCMAKE_TOOLCHAIN_FILE=${{ env.EMSDK_PATH }}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DPLATFORM=Web
 
         # Navigate to the src directory (this assumes main.c is in the src folder)
         
