@@ -1,0 +1,37 @@
+name: WebAssembly
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup emsdk
+      uses: mymindstorm/setup-emsdk@v14
+      with:
+        version: 3.1.64
+        actions-cache-folder: 'emsdk-cache'
+
+    - name: Build Game as WebAssembly
+      run: |
+        mkdir -p build
+        cd src
+        emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file shell.html
+
+    - name: Generate ZIP file
+      run: |
+        cd build
+        zip -r game.zip *
+
+    - name: Upload ZIP Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: game.zip
+        path: ./build/game.zip

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My WebAssembly Game</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+        }
+        .loading-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 2em;
+            text-align: center;
+            line-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading-overlay" id="loading-overlay">
+        Loading...
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script type="text/javascript">
+        var Module = {
+            preRun: [],
+            postRun: [],
+            onRuntimeInitialized: function() {
+                document.getElementById('loading-overlay').style.display = 
+'none';
+            },
+            canvas: (function() {
+                var canvas = document.getElementById('canvas');
+                return canvas;
+            })(),
+            setStatus: function(text) {
+                var loadingOverlay = 
+document.getElementById('loading-overlay');
+                loadingOverlay.style.display = 'block';
+                loadingOverlay.innerHTML = text;
+            }
+        };
+    </script>
+
+    <script type="text/javascript" src="index.js"></script>
+
+</body>
+</html>
+
