@@ -19,7 +19,7 @@ jobs:
         version: latest
 
     - name: Install Dependencies
-      run: sudo apt-get install -y cmake make wayland-protocols libwayland-dev
+      run: sudo apt-get install -y cmake make wayland-protocols libwayland-dev libxkbcommon-dev libglfw3-dev
 
 
     - name: Compile Raylib for Web
@@ -33,7 +33,7 @@ jobs:
         #cmake --build build
 
         # Navigate to the src directory (this assumes main.c is in the src folder)
-        cd src
+        
         
         ls -R
         # Compile using emcc with WebAssembly flags

@@ -35,15 +35,28 @@ include_directories(${physac_SOURCE_DIR}/src)
 include_directories(${raygui_SOURCE_DIR}/src)
 
 # Add the executable
-add_executable(my_game main.c)
+add_executable(my_game main.c  gui.c)
 
 # Link raylib to the project
 target_link_libraries(my_game raylib)
+
 
 # Set compilation flags
 if (APPLE)
     target_link_libraries(my_game "-framework OpenGL" "-framework Cocoa" 
 "-framework IOKit" "-framework CoreVideo")
-endif()
+else()
+if (UNIX)
+# On Linux, disable Wayland and ensure xkbcommon is available
+  message(STATUS "Compiling on Linux/Unix")
 
+# Disable Wayland support
+  set(GLFW_USE_WAYLAND OFF CACHE BOOL "" FORCE)
+
+# Check for xkbcommon library
+  find_package(PkgConfig REQUIRED)
+  pkg_check_modules(XKBCOMMON REQUIRED xkbcommon>=0.5.0)
+
+endif()
+endif()
 
