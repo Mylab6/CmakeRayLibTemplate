@@ -1,7 +1,7 @@
 #include "raylib.h"
-#include "tank.h"
+#include "MoveableCube.h"
 
-#define NUM_TANKS 3
+#define NUM_TANKS 4
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -29,14 +29,15 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     // Initialize tanks
-    Tank tanks[NUM_TANKS] = {
-        CreateTank((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, BLUE), 
-        CreateTank((Vector3){ 2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, RED),
-        CreateTank((Vector3){ -2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, GREEN)
+    MoveableCube tanks[NUM_TANKS] = {
+        CreateMoveableCube((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, BLUE), 
+        CreateMoveableCube((Vector3){ 2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, RED),
+        CreateMoveableCube((Vector3){ -2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, GREEN),
+        CreateMoveableCube((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, PINK), 
+
     };
 
     // Set tank colors
-    Color tankColors[NUM_TANKS] = { BLUE, RED, GREEN };
 
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
@@ -68,7 +69,7 @@ int main(void)
 
             BeginMode3D(camera);
                 for (int i = 0; i < NUM_TANKS; i++) {
-                    DrawTank(&tanks[i]);
+                    DrawMoveableCube(&tanks[i]);
                 }
 
                 DrawGrid(10, 1.0f);
