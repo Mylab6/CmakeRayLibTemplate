@@ -68,25 +68,25 @@ jobs:
         # Package the build into a zip file
         cp my_game.html index.html
         zip raylib_web_game.zip *.html *.wasm *.js
-
-    - name: Upload Web Build as Artifact
+    - name: Upload HTML5 Build
       uses: actions/upload-artifact@v3
       with:
-        name: raylib_web_game
+        name: html5-build
         path: build/raylib_web_game.zip
-          - name: Install Butler
-        run: |
+
+    - name: Install Butler
+      run: |
               curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
               unzip butler.zip
               chmod +x butler
               sudo mv butler /usr/local/bin
 
-      - name: Login to Butler n
-        run: butler login
-        env:
+    - name: Login to Butler n
+      run: butler login
+      env:
           BUTLER_API_KEY: ${{ secrets.BUTLER }}
 
-      - name: Push HTML5 build to Itch.io
-        run: butler push export/html5/bin ${{ secrets.ITCH_URL }}:html5
-        env:
+    - name: Push HTML5 build to Itch.io
+      run: butler push build/raylib_web_game.zip ${{ secrets.ITCH_URL }}:html5
+      env:
           BUTLER_API_KEY: ${{ secrets.BUTLER }}
