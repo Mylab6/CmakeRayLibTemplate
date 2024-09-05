@@ -11,8 +11,10 @@ This will create a nice zip file in your build folder that's ready for deploymen
 #Building locally. 
 I'm not really going to cover much here, but this works. 
 
-
 cmake -S . -B build
 cmake --build build
+
+## Included libs. 
+I got confused on how to install additional libs 
 
 

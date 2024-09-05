@@ -64,14 +64,7 @@ jobs:
 
     - name: Package Web Build into Zip
       run: |
-        # Load Emscripten environment variables
-        export EMSDK=$EMSDK
-        export PATH=$EMSDK/upstream/emscripten:$EMSDK/upstream/bin:$PATH
-        export EMSCRIPTEN=$EMSCRIPTEN
-        export LLVM=$LLVM
-        export BINARYEN=$BINARYEN
-        export EMSDK_NODE=$EMSDK_NODE
-
+        cd build
         # Package the build into a zip file
         cp my_game.html index.html
         zip raylib_web_game.zip *.html *.wasm *.js
