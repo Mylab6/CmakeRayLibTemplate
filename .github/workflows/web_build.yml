@@ -13,21 +13,13 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Setup Emscripten SDK
-      uses: mymindstorm/setup-emsdk@v14
-      with:
-        version: latest
-
-    - name: Get EmSDKPath
-      id: EmSdk
-      run: echo "EMSDK_PATH=$(where emsdk)" >> $env:GITHUB_ENV
-
     - name: Install Dependencies
       run: |
         choco install cmake ninja -y
         choco install mingw -y
         choco install git -y
         choco install python -y
+        choco install emscripten -y
 
     - name: Compile Raylib for Web
       env:
