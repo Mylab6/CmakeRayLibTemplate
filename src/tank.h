@@ -1,7 +1,7 @@
 #ifndef TANK_H
 #define TANK_H
 
-#include "gameObject.h"
+#include "gameobject.h"
 #include "raylib.h"
 
 typedef struct Tank {

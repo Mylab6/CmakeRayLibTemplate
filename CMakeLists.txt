@@ -1,5 +1,10 @@
+
+
+
+
+
 cmake_minimum_required(VERSION 3.11)
-project(my_project)
+project(my_project C CXX)
 
 if (EMSCRIPTEN)
   include_directories(${EMSCRIPTEN_INCLUDE_DIR})
@@ -45,10 +50,25 @@ include_directories(${physac_SOURCE_DIR}/src)
 include_directories(${raygui_SOURCE_DIR}/src)
 
 # Add the executable
-add_executable(my_game main.c gui.c gameobject.c MoveableCube.c)
+
+# Include the necessary directories
+include_directories(${physac_SOURCE_DIR}/src)
+include_directories(${raygui_SOURCE_DIR}/src)
+
+# Recursively find all .c and .cpp files in the src directory
+file(GLOB_RECURSE SRC_FILES_C "${CMAKE_SOURCE_DIR}/src/*.c")
+file(GLOB_RECURSE SRC_FILES_CPP "${CMAKE_SOURCE_DIR}/src/*.cpp")
+
+# Combine .c and .cpp files into one list
+set(SRC_FILES ${SRC_FILES_C} ${SRC_FILES_CPP})
+
+# Add the executable using all source files found
+add_executable(my_game ${SRC_FILES})
 
 # Link raylib to the project
 target_link_libraries(my_game raylib)
+target_link_libraries(my_game stdc++)
+
 
 
 # Set compilation flags
@@ -69,4 +89,3 @@ if (UNIX)
 
 endif()
 endif()
-
