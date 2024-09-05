@@ -22,21 +22,28 @@ jobs:
 
     - name: Install Android SDK and NDK
       run: |
-        # Create necessary directories for Android SDK
+        # Create the Android SDK directories
         mkdir -p $HOME/Android/Sdk/cmdline-tools
 
         # Download Android SDK command line tools
-        echo "Installing Android SDK and NDK..."
+        echo "Downloading Android SDK command-line tools..."
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip -d $HOME/Android/Sdk/cmdline-tools/latest
+
+        # Unzip the command line tools into the cmdline-tools/latest directory
+        unzip cmdline-tools.zip -d $HOME/Android/Sdk/cmdline-tools
+        mkdir -p $HOME/Android/Sdk/cmdline-tools/latest
+        mv $HOME/Android/Sdk/cmdline-tools/cmdline-tools/* $HOME/Android/Sdk/cmdline-tools/latest/
+
+        # Set Android SDK environment variables
         export ANDROID_SDK_ROOT=$HOME/Android/Sdk
         export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
 
         # Install required components (NDK, platforms, build-tools)
-        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --install "platform-tools" "platforms;android-29" "ndk-bundle" "build-tools;29.0.3"
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "platform-tools" "platforms;android-29" "ndk-bundle" "build-tools;29.0.3"
 
     - name: Set Up Android Environment Variables
       run: |
+        # Set Android SDK and NDK environment variables
         export ANDROID_SDK_ROOT=$HOME/Android/Sdk
         export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk-bundle
         echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
@@ -69,5 +76,3 @@ jobs:
       with:
         name: android-apk
         path: build/app/build/outputs/apk/debug/app-debug.apk
-
-    
