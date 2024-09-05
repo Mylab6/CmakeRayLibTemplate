@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "MoveableCube.h"
-
+#if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+#endif
 #define NUM_TANKS 4
 
 //------------------------------------------------------------------------------------
