@@ -1,0 +1,70 @@
+name: Build and Upload Raylib Android APK
+
+on:
+  push:
+    branches:
+      - AndroidLabs
+
+jobs:
+  build:
+    # Environment doesn't really matter here, I just don't feel like 
+    # Setting up a new one for Android
+    environment: web
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        # Update and install essential build tools
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build git wget unzip
+
+    - name: Install Android SDK and NDK
+      run: |
+        # Download Android SDK command line tools
+        echo "Installing Android SDK and NDK..."
+        wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip -O cmdline-tools.zip
+        unzip cmdline-tools.zip -d $HOME/Android/Sdk/cmdline-tools
+        export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
+
+        # Install required components (NDK, platforms, build-tools)
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --install "platform-tools" "platforms;android-29" "ndk-bundle" "build-tools;29.0.3"
+
+    - name: Set Up Android Environment Variables
+      run: |
+        export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+        export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk-bundle
+        echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+        echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> $GITHUB_ENV
+        echo "PATH=$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
+
+    - name: Configure and Build Android APK
+      run: |
+        # Load Android environment variables
+        export ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT
+        export ANDROID_NDK_HOME=$ANDROID_NDK_HOME
+
+        # Ensure the build directory is clean
+        rm -rf build
+        mkdir build
+        cd build
+
+        # Run the CMake configuration for Android
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+              -DANDROID_ABI=armeabi-v7a \
+              -DANDROID_PLATFORM=android-21 \
+              -DCMAKE_BUILD_TYPE=Release \
+              ..
+
+        # Build the APK
+        ./gradlew assembleDebug
+
+    - name: Upload APK as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: android-apk
+        path: build/app/build/outputs/apk/debug/app-debug.apk
