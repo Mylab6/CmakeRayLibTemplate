@@ -15,6 +15,10 @@ cmake -S . -B build
 cmake --build build
 
 ## Included libs. 
-I got confused on how to install additional libs 
+This comes with Raylib, RayGui and Physac. 
+Eventually I'll include a small game with this repo.
 
+### I AM NOT A C EXPERT.
+If something wasn't done the right way, feel free to fork or make a PR. 
+This project was born out of my inability to find a an easy way to get started with Raylib. It **should** be easy to get these things working. Web builds awesome!
 
