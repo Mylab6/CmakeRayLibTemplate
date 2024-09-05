@@ -34,17 +34,22 @@ jobs:
         # Activate the latest Emscripten SDK
         ./emsdk activate latest
 
-        # Source the Emscripten environment variables
-        source ./emsdk_env.sh
-
-        # Save environment variables for later steps
-        echo "EMSDK_PATH=$(pwd)" >> $GITHUB_ENV
-        echo "source $EMSDK_PATH/emsdk_env.sh" >> $GITHUB_ENV
+        # Set Emscripten environment variables manually for later steps
+        echo "EMSDK=$(pwd)" >> $GITHUB_ENV
+        echo "EMSDK_NODE=$(pwd)/node/18.20.3_64bit/bin/node" >> $GITHUB_ENV
+        echo "EMSCRIPTEN=$(pwd)/upstream/emscripten" >> $GITHUB_ENV
+        echo "LLVM=$(pwd)/upstream/bin" >> $GITHUB_ENV
+        echo "BINARYEN=$(pwd)/upstream" >> $GITHUB_ENV
 
     - name: Configure and Build Raylib WebAssembly Game
       run: |
-        # Load Emscripten environment
-        source $GITHUB_ENV
+        # Load Emscripten environment variables
+        export EMSDK=$EMSDK
+        export PATH=$EMSDK/upstream/emscripten:$EMSDK/upstream/bin:$PATH
+        export EMSCRIPTEN=$EMSCRIPTEN
+        export LLVM=$LLVM
+        export BINARYEN=$BINARYEN
+        export EMSDK_NODE=$EMSDK_NODE
 
         # Ensure the build directory is clean
         rm -rf build
@@ -59,8 +64,13 @@ jobs:
 
     - name: Package Web Build into Zip
       run: |
-        # Load Emscripten environment
-        source $GITHUB_ENV
+        # Load Emscripten environment variables
+        export EMSDK=$EMSDK
+        export PATH=$EMSDK/upstream/emscripten:$EMSDK/upstream/bin:$PATH
+        export EMSCRIPTEN=$EMSCRIPTEN
+        export LLVM=$LLVM
+        export BINARYEN=$BINARYEN
+        export EMSDK_NODE=$EMSDK_NODE
 
         # Package the build into a zip file
         cp my_game.html index.html
