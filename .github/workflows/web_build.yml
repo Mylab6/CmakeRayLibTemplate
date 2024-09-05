@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout Repository
@@ -20,40 +20,42 @@ jobs:
 
     - name: Get EmSDKPath
       id: EmSdk
-      run: echo "EMSDK_PATH=$(which emsdk)" >> $GITHUB_ENV
-    - name: Install Dependencies
-      run: sudo apt-get install -y xkbcommon wayland-egl wayland-cursor wayland-client build-essential make ninja-build libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev cmake make wayland-protocols libwayland-dev libxkbcommon-dev libglfw3-dev
+      run: echo "EMSDK_PATH=$(where emsdk)" >> $env:GITHUB_ENV
 
+    - name: Install Dependencies
+      run: |
+        choco install cmake ninja -y
+        choco install mingw -y
+        choco install git -y
+        choco install python -y
 
     - name: Compile Raylib for Web
       env:
         EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE: ${{ env.EMSDK_CMAKE_TOOLCHAIN_FILE }}
-
       run: |
         # Ensure the build directory is clean
-        rm -rf build
+        if exist build (rmdir /s /q build)
         
         # Create the build directory
-        #mkdir -p build
-        #emcmake -S . -B build
-        which emsdk
-        emcmake cmake 
-        cmake --build . 
-        # Navigate to the src directory (this assumes main.c is in the src folder)
+        mkdir build
+        cd build
         
+        # Generate CMake files
+        emcmake cmake ..
         
-        #ls -R
-        # Compile using emcc with WebAssembly flags
-       # emcc main.c -o ../build/index.html -s USE_GLFW=3 -s WASM=1 --shell-file shell.html -Os -Wall
+        # Build the project
+        cmake --build .
+        
+        # Navigate back to the root directory
+        cd ..
 
     - name: Package Web Build into Zip
       run: |
         # Navigate to the build directory
         cd build
-        ls -R
         
         # Create a zip package of the HTML, wasm, and JS files
-        zip -r raylib_web_game.zip index.html *.wasm *.js
+        Compress-Archive -Path index.html,*.wasm,*.js -DestinationPath raylib_web_game.zip
 
     - name: Upload Web Build as Artifact
       uses: actions/upload-artifact@v3

@@ -59,7 +59,14 @@ int main(void)
 
             BeginMode3D(camera);
                 Tank tank = CreateTank((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f);
+                Tank tank2 = CreateTank((Vector3){ 2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f);
+                Tank tank3 = CreateTank((Vector3){ -2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f);
+
                 DrawTank(&tank, BLUE);
+                DrawTank(&tank2, RED);
+                DrawTank(&tank3, GREEN);
+
+
                 // write fucntion to rotate tank 
                 // write function to move tank
                 // do it 
