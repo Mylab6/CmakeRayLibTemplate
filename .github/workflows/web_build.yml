@@ -7,6 +7,8 @@ on:
 
 jobs:
   build:
+    environment: web
+
     runs-on: ubuntu-latest
 
     steps:
