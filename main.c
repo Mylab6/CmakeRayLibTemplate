@@ -39,8 +39,30 @@ int main(void)
 
     // Set tank colors
 
+#if defined(PLATFORM_WEB)
+    emscripten_set_main_loop(UpdateDrawFrame(camera, tanks), 0, 1);
+#else
+    SetTargetFPS(60);   // Set our game to run at 60 frames-per-second
+    //--------------------------------------------------------------------------------------
+
     // Main game loop
-    while (!WindowShouldClose())        // Detect window close button or ESC key
+    while (!WindowShouldClose())    // Detect window close button or ESC key
+    {
+        UpdateDrawFrame(camera, tanks);
+    }
+ #endif
+
+
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+    CloseWindow();        // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+
+    return 0;
+}
+void UpdateDrawFrame(Camera3D camera , MoveableCube *tanks) 
+       // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
@@ -79,7 +101,7 @@ int main(void)
             DrawRectangle( 10, 10, 320, 93, Fade(SKYBLUE, 0.5f));
             DrawRectangleLines( 10, 10, 320, 93, BLUE);
 
-            DrawText("Free camera default controls:", 20, 20, 10, BLACK);
+            DrawText("Refactor branch Free camera default controls:", 20, 20, 10, BLACK);
             DrawText("- Mouse Wheel to Zoom in-out", 40, 40, 10, DARKGRAY);
             DrawText("- Mouse Wheel Pressed to Pan", 40, 60, 10, DARKGRAY);
             DrawText("- Z to zoom to (0, 0, 0)", 40, 80, 10, DARKGRAY);
@@ -87,11 +109,3 @@ int main(void)
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
-
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
-    return 0;
-}
