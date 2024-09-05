@@ -4,7 +4,7 @@
 
 
 cmake_minimum_required(VERSION 3.11)
-project(my_project)
+project(my_project C CXX)
 
 if (EMSCRIPTEN)
   include_directories(${EMSCRIPTEN_INCLUDE_DIR})
@@ -67,6 +67,8 @@ add_executable(my_game ${SRC_FILES})
 
 # Link raylib to the project
 target_link_libraries(my_game raylib)
+target_link_libraries(my_game stdc++)
+
 
 
 # Set compilation flags

@@ -4,14 +4,19 @@
     #include <emscripten/emscripten.h>
 #endif
 #define NUM_TANKS 4
-
+#include "gui.h"
+#include "MyClass.h"
+#include <string.h>
 // Declare global variables for Web compatibility
 Camera3D camera;
 MoveableCube tanks[NUM_TANKS];
+int valueFromClass;
+char str[256];  // Create a buffer to hold the resulting string
 
+bool showMessage ;
 // Forward declaration of UpdateDrawFrame
 void UpdateDrawFrame(void);
-
+MyClass* myClass;
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -21,6 +26,15 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
+
+    myClass = MyClass_Create();
+
+    MyClass_SetValue(myClass, 42);
+   
+ 
+
+    strcpy(str, MyClass_GetString(myClass));
+
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - 3d camera free");
 
@@ -99,8 +113,8 @@ void UpdateDrawFrame(void)
 
         DrawRectangle( 10, 10, 320, 93, Fade(SKYBLUE, 0.5f));
         DrawRectangleLines( 10, 10, 320, 93, BLUE);
-
-        DrawText("Refactor branch Free camera default controls:", 20, 20, 10, BLACK);
+        //RenderGUI(&showMessage); 
+        DrawText(str, 20, 20, 10, BLACK);
         DrawText("- Mouse Wheel to Zoom in-out", 40, 40, 10, DARKGRAY);
         DrawText("- Mouse Wheel Pressed to Pan", 40, 60, 10, DARKGRAY);
         DrawText("- Z to zoom to (0, 0, 0)", 40, 80, 10, DARKGRAY);

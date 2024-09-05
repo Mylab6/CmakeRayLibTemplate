@@ -4,11 +4,16 @@
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
+#include "MyClass.h"
 // Function to handle rendering and interactions of the GUI
 void RenderGUI(bool *showMessageBox)
 {
-    
-    if (GuiButton((Rectangle){ 24, 24, 120, 30 }, "#191#Show 4567 Message"))
+   // Adder* myAdder = Adder_create(10);
+    MyClass* myClass = MyClass_Create();
+
+    MyClass_SetValue(myClass, 42);
+    int valueFromClass =  MyClass_GetValue(myClass);
+    if (GuiButton((Rectangle){ 24, 24, 120, 30 }, "#191#Show 4567 Message" + valueFromClass))
         *showMessageBox = true;
 
     if (*showMessageBox)
