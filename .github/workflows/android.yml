@@ -7,8 +7,6 @@ on:
 
 jobs:
   build:
-    # Environment doesn't really matter here, I just don't feel like 
-    # Setting up a new one for Android
     environment: web
     runs-on: ubuntu-latest
 
@@ -24,15 +22,18 @@ jobs:
 
     - name: Install Android SDK and NDK
       run: |
+        # Create necessary directories for Android SDK
+        mkdir -p $HOME/Android/Sdk/cmdline-tools
+
         # Download Android SDK command line tools
         echo "Installing Android SDK and NDK..."
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip -d $HOME/Android/Sdk/cmdline-tools
+        unzip cmdline-tools.zip -d $HOME/Android/Sdk/cmdline-tools/latest
         export ANDROID_SDK_ROOT=$HOME/Android/Sdk
-        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
+        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
 
         # Install required components (NDK, platforms, build-tools)
-        yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --install "platform-tools" "platforms;android-29" "ndk-bundle" "build-tools;29.0.3"
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --install "platform-tools" "platforms;android-29" "ndk-bundle" "build-tools;29.0.3"
 
     - name: Set Up Android Environment Variables
       run: |
@@ -40,7 +41,7 @@ jobs:
         export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk-bundle
         echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
         echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> $GITHUB_ENV
-        echo "PATH=$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
+        echo "PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
 
     - name: Configure and Build Android APK
       run: |
@@ -68,3 +69,5 @@ jobs:
       with:
         name: android-apk
         path: build/app/build/outputs/apk/debug/app-debug.apk
+
+    
