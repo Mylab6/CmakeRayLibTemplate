@@ -8,11 +8,11 @@ Tank CreateTank(Vector2 position, float rotation, float scale, float size) {
     return tank;
 }
 
-void DrawTank(Tank *tank) {
+void DrawTank(Tank *tank, Color color) {
     DrawRectanglePro(
         (Rectangle){tank->base.position.x, tank->base.position.y, tank->size * tank->base.scale, tank->size * tank->base.scale},
         (Vector2){tank->size * tank->base.scale / 2, tank->size * tank->base.scale / 2},
         tank->base.rotation,
-        MAROON
+        color
     );
 }

@@ -9,6 +9,6 @@ typedef struct Tank {
 } Tank;
 
 Tank CreateTank(Vector2 position, float rotation, float scale, float size);
-void DrawTank(Tank *tank);
+void DrawTank(Tank *tank, Color color);
 
 #endif // TANK_H

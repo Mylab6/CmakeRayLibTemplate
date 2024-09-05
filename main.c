@@ -35,7 +35,7 @@ int main(void) {
         ClearBackground(RAYWHITE);
 
         // Draw player
-        DrawTank(&player);
+        DrawTank(&player, GREEN);
 
         EndDrawing();
     }
