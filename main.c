@@ -1,18 +1,7 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Initialize 3d camera free
-*
-*   Example originally created with raylib 1.3, last time updated with raylib 1.3
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2015-2024 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
-
 #include "raylib.h"
 #include "tank.h"
+
+#define NUM_TANKS 3
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -34,12 +23,20 @@ int main(void)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Vector3 cubePosition = { 0.0f, 0.0f, 0.0f };
-
     DisableCursor();                    // Limit cursor to relative movement inside the window
 
     SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
+
+    // Initialize tanks
+    Tank tanks[NUM_TANKS] = {
+        CreateTank((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, BLUE), 
+        CreateTank((Vector3){ 2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, RED),
+        CreateTank((Vector3){ -2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, GREEN)
+    };
+
+    // Set tank colors
+    Color tankColors[NUM_TANKS] = { BLUE, RED, GREEN };
 
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
@@ -49,6 +46,18 @@ int main(void)
         UpdateCamera(&camera, CAMERA_FREE);
 
         if (IsKeyPressed('Z')) camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
+
+        // Update tank positions and rotations
+        static float moveSpeed = 0.05f;
+        static float turnSpeed = 1.0f;
+
+        for (int i = 0; i < NUM_TANKS; i++) {
+            tanks[i].base.Translate(&tanks[i].base, (Vector3){ 0.0f, 0.0f, moveSpeed });
+            if (tanks[i].base.position.z > 5.0f || tanks[i].base.position.z < -5.0f) {
+                tanks[i].base.Rotate(&tanks[i].base, 180.0f);
+                moveSpeed = -moveSpeed;
+            }
+        }
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -58,21 +67,9 @@ int main(void)
             ClearBackground(RAYWHITE);
 
             BeginMode3D(camera);
-                Tank tank = CreateTank((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f);
-                Tank tank2 = CreateTank((Vector3){ 2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f);
-                Tank tank3 = CreateTank((Vector3){ -2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f);
-
-                DrawTank(&tank, BLUE);
-                DrawTank(&tank2, RED);
-                DrawTank(&tank3, GREEN);
-
-
-                // write fucntion to rotate tank 
-                // write function to move tank
-                // do it 
-                tank.base.Translate(&tank.base, (Vector3){ 0.0f, 0.0f, 0.0f });
-                //DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
-                //DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
+                for (int i = 0; i < NUM_TANKS; i++) {
+                    DrawTank(&tanks[i]);
+                }
 
                 DrawGrid(10, 1.0f);
 

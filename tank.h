@@ -6,10 +6,11 @@
 
 typedef struct Tank {
     GameObject base;
+    Color color;
     float size;
 } Tank;
 
-Tank CreateTank(Vector3 position, float rotation, float scale, float size);
-void DrawTank(Tank *tank, Color color);
+Tank CreateTank(Vector3 position, float rotation, float scale, float size, Color color);
+void DrawTank(Tank *tank);
 
 #endif // TANK_H

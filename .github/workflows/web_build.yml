@@ -34,9 +34,9 @@ jobs:
         
         # Generate CMake files
         emcmake cmake ..
-        
+        dir
         # Build the project
-        cmake --build .
+        emcmake --build .
         
         # Navigate back to the root directory
         cd ..
