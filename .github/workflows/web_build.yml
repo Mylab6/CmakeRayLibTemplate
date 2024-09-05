@@ -19,11 +19,17 @@ jobs:
         choco install mingw -y
         choco install git -y
         choco install python -y
-        choco install emscripten -y
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+        git clone https://github.com/emscripten-core/emsdk.git
+        cd emsdk
+        emsdk.bat install latest
+        emsdk.bat activate latest
+
+
 
     - name: Compile Raylib for Web
-      env:
-        EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE: ${{ env.EMSDK_CMAKE_TOOLCHAIN_FILE }}
+     # env:
+      #  EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE: ${{ env.EMSDK_CMAKE_TOOLCHAIN_FILE }}
       run: |
         # Ensure the build directory is clean
         # if exist build (rmdir /s /q build)

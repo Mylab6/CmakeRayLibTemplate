@@ -33,7 +33,7 @@ int main(void)
         CreateMoveableCube((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, BLUE), 
         CreateMoveableCube((Vector3){ 2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, RED),
         CreateMoveableCube((Vector3){ -2.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, GREEN),
-        CreateMoveableCube((Vector3){ 0.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, PINK), 
+        CreateMoveableCube((Vector3){ 3.0f, 0.0f, 0.0f }, 0.0f, 1.0f, 1.0f, PINK), 
 
     };
 
