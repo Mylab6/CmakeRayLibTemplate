@@ -74,3 +74,19 @@ jobs:
       with:
         name: raylib_web_game
         path: build/raylib_web_game.zip
+          - name: Install Butler
+        run: |
+              curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+              unzip butler.zip
+              chmod +x butler
+              sudo mv butler /usr/local/bin
+
+      - name: Login to Butler n
+        run: butler login
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER }}
+
+      - name: Push HTML5 build to Itch.io
+        run: butler push export/html5/bin ${{ secrets.ITCH_URL }}:html5
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER }}
