@@ -1,12 +1,16 @@
-#CMake RayLib Template 
+# CMake RayLib Template 
 
 Zlib licnesed starter for raylib projects 
-A very basic template for getting ray lib projects working with CMake
+A very basic template for getting ray lib web builds working with CMake
 ## Supports Web Builds!
 
 This took me the better part of a day to figure out. 
 The long story short -> on Ubuntu run build_project.sh
-This will create a nice zip file in your build folder that's ready for deployment to itch or another host
+This will create a nice zip file in your build folder that's ready for deployment to itch or another host. 
+
+Alternatively you can use the included Github action to build and deploy to itch. 
+Create a environment, call it web. Set your itch api key as a secret called BUTLER, and set ITCH_USERNAME/ITCH_PROJECT_NAME as a secredt called ITCH_URL.
+
 
 #Building locally. 
 I'm not really going to cover much here, but this works. 
