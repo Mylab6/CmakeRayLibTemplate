@@ -9,7 +9,7 @@ Tank CreateTank(Vector3 position, float rotation, float scale, float size) {
 }
 
 void DrawTank(Tank *tank, Color color) {
-    Vector3  tankVector =        {tank->base.position.x, tank->base.position.y, tank->base.position.z}; 
+    Vector3  tankVector =     {tank->base.position.x, tank->base.position.y, tank->base.position.z}; 
 
     DrawCube(
         tankVector,

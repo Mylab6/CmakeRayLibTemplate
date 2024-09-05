@@ -7,7 +7,7 @@ typedef struct GameObject {
     Vector3 position;
     float rotation;
     float scale;
-    void (*Translate)(struct GameObject*, Vector2);
+    void (*Translate)(struct GameObject*, Vector3);
     void (*Rotate)(struct GameObject*, float);
 } GameObject;
 
