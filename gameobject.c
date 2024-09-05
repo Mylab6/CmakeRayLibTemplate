@@ -4,7 +4,6 @@ void TranslateGameObject(GameObject *obj, Vector3 translation) {
     obj->position.x += translation.x;
     obj->position.y += translation.y;
     obj->position.z += translation.z;
-
 }
 
 void RotateGameObject(GameObject *obj, float angle) {

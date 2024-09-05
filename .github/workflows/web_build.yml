@@ -37,8 +37,8 @@ jobs:
         #mkdir -p build
         #emcmake -S . -B build
         which emsdk
-        emcmake . -DPLATFORM=Web -B build
-        emcmake . --build build
+        emcmake cmake 
+        cmake --build . 
         # Navigate to the src directory (this assumes main.c is in the src folder)
         
         
