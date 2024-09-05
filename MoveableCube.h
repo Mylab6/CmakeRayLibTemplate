@@ -1,7 +1,7 @@
 #ifndef MoveableCube_H
 #define MoveableCube_H
 
-#include "gameObject.h"
+#include "gameobject.h"
 #include "raylib.h"
 
 typedef struct MoveableCube {

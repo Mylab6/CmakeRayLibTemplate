@@ -6,8 +6,8 @@ if (EMSCRIPTEN)
 
 	set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
 
-	set_target_properties(calc PROPERTIES COMPILE_FLAGS "-Os -s SIDE_MODULE=1 ")
-	set_target_properties(calc PROPERTIES LINK_FLAGS    "-Os -s WASM=1 -s SIDE_MODULE=1 -s STANDALONE_WASM --no-entry")
+	set_target_properties( PROPERTIES COMPILE_FLAGS "-Os -s SIDE_MODULE=1 ")
+	set_target_properties( PROPERTIES LINK_FLAGS    "-Os -s WASM=1 -s SIDE_MODULE=1 -s STANDALONE_WASM --no-entry")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
   set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so taht you can directly open it.
 endif ()
@@ -45,7 +45,7 @@ include_directories(${physac_SOURCE_DIR}/src)
 include_directories(${raygui_SOURCE_DIR}/src)
 
 # Add the executable
-add_executable(my_game main.c gui.c gameobject.c Moveablecube.c)
+add_executable(my_game main.c gui.c gameobject.c MoveableCube.c)
 
 # Link raylib to the project
 target_link_libraries(my_game raylib)
@@ -65,7 +65,7 @@ if (UNIX)
 
 # Check for xkbcommon library
   find_package(PkgConfig REQUIRED)
-  pkg_check_modules(XKBCOMMON REQUIRED xkbcommon>=0.5.0)
+  #pkg_check_modules(XKBCOMMON REQUIRED xkbcommon>=0.5.0)
 
 endif()
 endif()
