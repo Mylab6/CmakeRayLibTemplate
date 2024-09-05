@@ -35,7 +35,7 @@ jobs:
         
         # Create the build directory
         #mkdir -p build
-        emcmake -S . -B build
+        #emcmake -S . -B build
         which emsdk
         emcmake  -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE} -G "Unix Makefiles" . -DPLATFORM=Web -B build
         emcmake --build build
