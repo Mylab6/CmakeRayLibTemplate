@@ -70,5 +70,5 @@ elseif(UNIX)
 
     # Check for xkbcommon library
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(XKBCOMMON REQUIRED xkbcommon>=0.5.0)
+    #pkg_check_modules(XKBCOMMON REQUIRED xkbcommon>=0.5.0)
 endif()
