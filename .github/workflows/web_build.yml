@@ -1,0 +1,94 @@
+name: Build and Upload Raylib WebAssembly Game
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    environment: web
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        # Update and install essential build tools
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build git python3 wget unzip
+
+        # Install Wayland and XKB dependencies (in case they're needed, but can be skipped for WebAssembly)
+        sudo apt-get install -y libwayland-dev wayland-protocols libxkbcommon-dev libx11-dev libegl1-mesa-dev
+
+    - name: Install Emscripten
+      run: |
+        echo "Installing Emscripten..."
+        git clone https://github.com/emscripten-core/emsdk.git
+        cd emsdk
+
+        # Fetch and install the latest Emscripten SDK
+        ./emsdk install latest
+
+        # Activate the latest Emscripten SDK
+        ./emsdk activate latest
+
+        # Set Emscripten environment variables manually for later steps
+        echo "EMSDK=$(pwd)" >> $GITHUB_ENV
+        echo "EMSDK_NODE=$(pwd)/node/18.20.3_64bit/bin/node" >> $GITHUB_ENV
+        echo "EMSCRIPTEN=$(pwd)/upstream/emscripten" >> $GITHUB_ENV
+        echo "LLVM=$(pwd)/upstream/bin" >> $GITHUB_ENV
+        echo "BINARYEN=$(pwd)/upstream" >> $GITHUB_ENV
+
+    - name: Configure and Build Raylib WebAssembly Game
+      run: |
+        # Load Emscripten environment variables
+        export EMSDK=$EMSDK
+        export PATH=$EMSDK/upstream/emscripten:$EMSDK/upstream/bin:$PATH
+        export EMSCRIPTEN=$EMSCRIPTEN
+        export LLVM=$LLVM
+        export BINARYEN=$BINARYEN
+        export EMSDK_NODE=$EMSDK_NODE
+
+        # Ensure the build directory is clean
+        rm -rf build
+        mkdir build
+        cd build
+
+        # Run the CMake configuration for WebAssembly (PLATFORM_WEB)
+        emcmake cmake -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release ..
+
+        # Build the project using emmake
+        emmake make
+
+    - name: Package Web Build into Zip
+      run: |
+        cd build
+        # Package the build into a zip file
+        cp my_game.html index.html
+        zip raylib_web_game.zip *.html *.wasm *.js
+    - name: Upload HTML5 Build
+      uses: actions/upload-artifact@v3
+      with:
+        name: html5-build
+        path: build/raylib_web_game.zip
+
+    - name: Install Butler
+      run: |
+              curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+              unzip butler.zip
+              chmod +x butler
+              sudo mv butler /usr/local/bin
+
+    - name: Login to Butler n
+      run: butler login
+      env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER }}
+
+    - name: Push HTML5 build to Itch.io
+      run: butler push build/raylib_web_game.zip ${{ secrets.ITCH_URL }}:html5
+      env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER }}

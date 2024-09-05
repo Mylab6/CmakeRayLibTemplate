@@ -1,0 +1,2 @@
+Random notes
+        RenderGUI(&showMessageBox);
