@@ -40,9 +40,23 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/victorfisac/Physac.git
   GIT_TAG        master # You can specify a particular tag, branch, or commit
 )
+find_package(raylib_cpp QUIET)
+if (NOT raylib_cpp_FOUND)
+    if (NOT DEFINED RAYLIB_CPP_VERSION)
+        set(RAYLIB_CPP_VERSION v5.0.2)
+    endif()
+    include(FetchContent)
+    FetchContent_Declare(
+        raylib_cpp
+        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+        GIT_TAG ${RAYLIB_CPP_VERSION}
+    )
+    FetchContent_MakeAvailable(raylib_cpp)
+endif()
 
 # Fetch Physac
 FetchContent_MakeAvailable(physac)
+#FetchContent_MakeAvailable(raylib-cpp)
 
 include_directories(${physac_SOURCE_DIR}/src)
 
@@ -68,6 +82,7 @@ add_executable(my_game ${SRC_FILES})
 # Link raylib to the project
 target_link_libraries(my_game raylib)
 target_link_libraries(my_game stdc++)
+target_link_libraries(my_game raylib_cpp)
 
 
 
