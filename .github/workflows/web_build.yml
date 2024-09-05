@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
@@ -15,45 +15,56 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        choco install cmake ninja -y
-        choco install mingw -y
-        choco install git -y
-        choco install python -y
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+        # Update and install essential build tools
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build git python3 wget unzip
+
+        # Install Wayland and XKB dependencies (in case they're needed, but can be skipped for WebAssembly)
+        sudo apt-get install -y libwayland-dev wayland-protocols libxkbcommon-dev libx11-dev libegl1-mesa-dev
+
+    - name: Install Emscripten
+      run: |
+        echo "Installing Emscripten..."
         git clone https://github.com/emscripten-core/emsdk.git
         cd emsdk
-        emsdk.bat install latest
-        emsdk.bat activate latest
 
+        # Fetch and install the latest Emscripten SDK
+        ./emsdk install latest
 
+        # Activate the latest Emscripten SDK
+        ./emsdk activate latest
 
-    - name: Compile Raylib for Web
-     # env:
-      #  EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE: ${{ env.EMSDK_CMAKE_TOOLCHAIN_FILE }}
+        # Source the Emscripten environment variables
+        source ./emsdk_env.sh
+
+        # Save environment variables for later steps
+        echo "EMSDK_PATH=$(pwd)" >> $GITHUB_ENV
+        echo "source $EMSDK_PATH/emsdk_env.sh" >> $GITHUB_ENV
+
+    - name: Configure and Build Raylib WebAssembly Game
       run: |
+        # Load Emscripten environment
+        source $GITHUB_ENV
+
         # Ensure the build directory is clean
-        # if exist build (rmdir /s /q build)
-        
-        # Create the build directory
+        rm -rf build
         mkdir build
         cd build
-        
-        # Generate CMake files
-        emcmake cmake ..
-        dir
-        # Build the project
-        emcmake --build .
-        
-        # Navigate back to the root directory
-        cd ..
+
+        # Run the CMake configuration for WebAssembly (PLATFORM_WEB)
+        emcmake cmake -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release ..
+
+        # Build the project using emmake
+        emmake make
 
     - name: Package Web Build into Zip
       run: |
-        # Navigate to the build directory
-        cd build
-        
-        # Create a zip package of the HTML, wasm, and JS files
-        Compress-Archive -Path index.html,*.wasm,*.js -DestinationPath raylib_web_game.zip
+        # Load Emscripten environment
+        source $GITHUB_ENV
+
+        # Package the build into a zip file
+        cp my_game.html index.html
+        zip raylib_web_game.zip *.html *.wasm *.js
 
     - name: Upload Web Build as Artifact
       uses: actions/upload-artifact@v3
