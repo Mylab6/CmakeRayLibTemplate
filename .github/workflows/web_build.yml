@@ -35,10 +35,10 @@ jobs:
         
         # Create the build directory
         #mkdir -p build
-        cmake -S . -B build
+        emcmake -S . -B build
         which emsdk
-        cmake  -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE} -G "Unix Makefiles" . -DPLATFORM=Web -B build
-        cmake --build build
+        emcmake  -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_TOOLCHAIN_FILE} -G "Unix Makefiles" . -DPLATFORM=Web -B build
+        emcmake --build build
         # Navigate to the src directory (this assumes main.c is in the src folder)
         
         
