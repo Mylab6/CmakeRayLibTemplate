@@ -1,19 +1,15 @@
 #include "MoveableCube.h"
 #include "raylib.h"
 
-/// @brief 
-/// @param position 
-/// @param rotation 
-/// @param scale 
-/// @param size 
-/// @param color 
-MoveableCube::MoveableCube(const Vector3& position, float rotation, float scale, float size, const Color& color)
-: GameObject(position, rotation, scale), size(size), color(color) {}
+MoveableCube::MoveableCube(const Vector3& position, float rotation, float scale,  Color color,const Vector3& velocity)
+: GameObject(position, rotation, scale,  velocity) {
+
+    this->color = color;
+}
 
 void MoveableCube::Draw() {
-    float halfSize = size * scale / 2;
 
     // Draw cube
-    DrawCube(position, size * scale, size * scale, size * scale, color);
-    DrawCubeWires(position, size * scale, size * scale, size * scale, DARKGRAY);
+    DrawCube(position, scale, scale, scale, color);
+    DrawCubeWires(position, scale, scale, scale, DARKGRAY);
 }

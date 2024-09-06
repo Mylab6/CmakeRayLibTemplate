@@ -1,5 +1,8 @@
 #include "raylib-cpp.hpp"
 #include "tank.h"
+#include <string>
+using namespace std;
+
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
@@ -18,8 +21,8 @@ int main() {
 
     // Create a tank in the center of the screen
     Vector3 tankPosition = {0.0f, 0.0f, 0.0f};
-    tank =  new Tank(tankPosition, 0.0f, 1.0f, 1.0f, RED);
-
+    tank =  new Tank(tankPosition, 0.0f, 3.0f, BLUE);
+    tank->velocity.x = 1.0f;
     // Camera setup
     camera = { 0 };
     camera.position = (Vector3){ 10.0f, 10.0f, 10.0f };
@@ -43,16 +46,28 @@ int main() {
 }
 void UpdateDrawFrame(void){
 
+
         // Update camera
         UpdateCamera(&camera, CAMERA_ORBITAL);
+        float deltaTime = GetFrameTime();
+        tank->Update(deltaTime);
 
         BeginDrawing();
+        DrawFPS(30,30 );                                                     // Draw current FPS
 
-        window.ClearBackground(RAYWHITE);
+        window.ClearBackground(BLACK);
 
         // Begin 3D mode with the camera
         BeginMode3D(camera);
+        int tankPositionX = tank->position.x;
 
+        if(tankPositionX > 10.0f){
+            tank->velocity.x = -4.0f;
+            tank->color = RED;
+        }else if( tankPositionX< -10.0f){
+            tank->velocity.x = 4.0f;
+            tank->color = BLUE;
+        }
         // Draw the tank
         tank->Draw();
 
@@ -60,8 +75,8 @@ void UpdateDrawFrame(void){
         DrawGrid(20, 1.0f);
 
         EndMode3D();
-
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        string tankPosition = "Tank POS X " + to_string(tankPositionX);
+        DrawText(tankPosition.c_str(), 190, 200, 20, GREEN);
 
         EndDrawing();
     }

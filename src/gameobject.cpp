@@ -9,6 +9,11 @@ void GameObject::Translate(const Vector3& translation) {
 void GameObject::Rotate(float angle) {
     rotation += angle;
 }
+void GameObject::Update(float deltaTime) {
+    position.x += velocity.x * deltaTime;
+    position.y += velocity.y * deltaTime;
+    position.z += velocity.z * deltaTime;
+}
 
-GameObject::GameObject(const Vector3& position, float rotation, float scale)
-    : position(position), rotation(rotation), scale(scale) {}
+GameObject::GameObject(const Vector3& position, float rotation, float scale, const Vector3& velocity)
+    : position(position), rotation(rotation), scale(scale) ,velocity(velocity) {}
