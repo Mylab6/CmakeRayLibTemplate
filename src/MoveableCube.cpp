@@ -7,8 +7,10 @@ MoveableCube::MoveableCube(const Vector3& position, float rotation, float scale,
     this->color = color;
 }
 
-void MoveableCube::Draw() {
 
+
+void MoveableCube::Draw() {
+    
     // Draw cube
     DrawCube(position, scale, scale, scale, color);
     DrawCubeWires(position, scale, scale, scale, DARKGRAY);
