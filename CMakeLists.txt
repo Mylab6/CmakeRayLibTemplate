@@ -68,6 +68,7 @@ include_directories(${raygui_SOURCE_DIR}/src)
 # Include the necessary directories
 include_directories(${physac_SOURCE_DIR}/src)
 include_directories(${raygui_SOURCE_DIR}/src)
+#include_directories(${CMAKE_SOURCE_DIR}/src/resources) # Include the resources directory
 
 # Recursively find all .c and .cpp files in the src directory
 file(GLOB_RECURSE SRC_FILES_C "${CMAKE_SOURCE_DIR}/src/*.c")
@@ -80,6 +81,7 @@ set(SRC_FILES ${SRC_FILES_C} ${SRC_FILES_CPP})
 add_executable(my_game ${SRC_FILES})
 
 # Link raylib to the project
+
 target_link_libraries(my_game raylib)
 target_link_libraries(my_game stdc++)
 target_link_libraries(my_game raylib_cpp)

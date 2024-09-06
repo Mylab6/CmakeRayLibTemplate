@@ -25,7 +25,7 @@ void GameObject::LoadGameModel(string modelPath , string texturePath) {
 }
 void GameObject::DrawGameModel() {
     
-    DrawModel(model, position, 1.0f, WHITE);        // Draw 3d model with texture
+    DrawModel(model, position, scale, WHITE);        // Draw 3d model with texture
 
 
 }

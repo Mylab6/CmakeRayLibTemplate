@@ -33,8 +33,10 @@ int main() {
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
     prototype = new GameObject(tankPosition, 0.0f, 3.0f);
-    prototype->LoadGameModel("/resources/KennyAssets/Prototype/Models/OBJ format/crate.obj", "/resources/KennyAssets/Prototype/Models/OBJ format/Textures/colormap.png");
-
+    //prototype->LoadGameModel("/resources/animal-bison.obj", "/resources/KennyAssets/Prototype/Models/OBJ format/Textures/colormap.png");
+    prototype->LoadGameModel("src/resources/animal-bison.obj", "src/resources/colormap.png");
+    prototype->scale = 10;  
+    prototype->rotation = 180; 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
@@ -74,7 +76,8 @@ void UpdateDrawFrame(void){
         }
         // Draw the tank
         tank->Draw();
-
+        prototype->DrawGameModel();
+        prototype->Update(deltaTime);
         // Draw a grid
         DrawGrid(20, 1.0f);
 
