@@ -71,6 +71,7 @@ include_directories(${raygui_SOURCE_DIR}/src)
 include_directories(${physac_SOURCE_DIR}/src)
 include_directories(${raygui_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/resources) # Include the resources directory
+include_directories(engine game)
 
 # Recursively find all .c and .cpp files in the src directory
 file(GLOB_RECURSE SRC_FILES_C "${CMAKE_SOURCE_DIR}/src/*.c")
