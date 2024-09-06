@@ -2,17 +2,16 @@
 #define GAMEOBJECT_H
 
 #include "raylib.h"
-
-typedef struct GameObject {
+class GameObject {
+public:
     Vector3 position;
     float rotation;
     float scale;
-    void (*Translate)(struct GameObject*, Vector3);
-    void (*Rotate)(struct GameObject*, float);
-} GameObject;
 
-GameObject CreateGameObject(Vector3 position, float rotation, float scale);
-void TranslateGameObject(GameObject *obj, Vector3 translation);
-void RotateGameObject(GameObject *obj, float angle);
+    void Translate(const Vector3& translation);
+    void Rotate(float angle);
+
+    GameObject(const Vector3& position, float rotation, float scale);
+};
 
 #endif // GAMEOBJECT_H

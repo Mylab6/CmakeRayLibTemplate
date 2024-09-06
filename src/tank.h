@@ -2,15 +2,16 @@
 #define TANK_H
 
 #include "gameobject.h"
+
 #include "raylib.h"
 
-typedef struct Tank {
-    GameObject base;
-    Color color;
-    float size;
-} Tank;
+#include "MoveableCube.h"
 
-Tank CreateTank(Vector3 position, float rotation, float scale, float size, Color color);
-void DrawTank(Tank *tank);
+class Tank : public MoveableCube {
+public:
+
+    Tank(const Vector3& position, float rotation, float scale, float size, const Color& color);
+    void Draw();
+};
 
 #endif // TANK_H
