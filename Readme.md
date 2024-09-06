@@ -22,6 +22,10 @@ cmake --build build
 This comes with Raylib, RayGui and Physac. 
 Eventually I'll include a small game with this repo.
 
+## CTemplate Branch 
+
+I decided to switch to CPP for my future projects, but the CTemplate branch is avaible if you'd like to try that!
+
 ### I AM NOT A C EXPERT.
 If something wasn't done the right way, feel free to fork or make a PR. 
 This project was born out of my inability to find a an easy way to get started with Raylib. It **should** be easy to get these things working. Web builds awesome!
