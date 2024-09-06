@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "CMake: build",
+			"type": "shell",
+			"command": "rm -rf build && cmake -B build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"detail": "Running custom CMake target"
+		}
+	]
+}

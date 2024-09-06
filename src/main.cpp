@@ -9,6 +9,7 @@ using namespace std;
 raylib::Window  window; 
 Camera3D camera; 
 Tank* tank = nullptr;
+GameObject* prototype = nullptr; 
 void UpdateDrawFrame(void);
 
 int main() {
@@ -21,6 +22,7 @@ int main() {
 
     // Create a tank in the center of the screen
     Vector3 tankPosition = {0.0f, 0.0f, 0.0f};
+    
     tank =  new Tank(tankPosition, 0.0f, 3.0f, BLUE);
     tank->velocity.x = 1.0f;
     // Camera setup
@@ -30,6 +32,8 @@ int main() {
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
+    prototype = new GameObject(tankPosition, 0.0f, 3.0f);
+    prototype->LoadGameModel("/resources/KennyAssets/Prototype/Models/OBJ format/crate.obj", "/resources/KennyAssets/Prototype/Models/OBJ format/Textures/colormap.png");
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
