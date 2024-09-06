@@ -13,6 +13,8 @@ if (EMSCRIPTEN)
 
 	set_target_properties( PROPERTIES COMPILE_FLAGS "-Os -s SIDE_MODULE=1 ")
 	set_target_properties( PROPERTIES LINK_FLAGS    "-Os -s WASM=1 -s SIDE_MODULE=1 -s STANDALONE_WASM --no-entry")
+  set_target_properties( PROPERTIES LINK_FLAGS "--preload-file resources/")
+
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
   set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so taht you can directly open it.
 endif ()
