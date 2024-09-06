@@ -1,5 +1,8 @@
 #include "raylib-cpp.hpp"
 #include "tank.h"
+#if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+#endif
 raylib::Window  window; 
 Camera3D camera; 
 Tank* tank = nullptr;
