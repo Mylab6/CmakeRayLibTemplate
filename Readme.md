@@ -30,3 +30,6 @@ I decided to switch to CPP for my future projects, but the CTemplate branch is a
 If something wasn't done the right way, feel free to fork or make a PR. 
 This project was born out of my inability to find a an easy way to get started with Raylib. It **should** be easy to get these things working. Web builds awesome!
 
+Uses Kenny Assets:
+License: (Creative Commons Zero, CC0)
+

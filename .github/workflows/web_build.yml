@@ -71,8 +71,8 @@ jobs:
       run: |
         cd build
         # Package the build into a zip file
-        cp my_game.html index.html
-        zip raylib_web_game.zip *.html *.wasm *.js
+
+        zip raylib_web_game.zip *.html *.wasm *.js *.data
     - name: Upload HTML5 Build
       uses: actions/upload-artifact@v3
       with:

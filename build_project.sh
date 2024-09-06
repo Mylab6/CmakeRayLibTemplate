@@ -13,7 +13,13 @@ sudo apt-get install -y libwayland-dev wayland-protocols libxkbcommon-dev libx11
 
 # Install Emscripten
 echo "Installing Emscripten..."
-git clone https://github.com/emscripten-core/emsdk.git
+if [ -d "emsdk" ]; then
+    echo "Emscripten is already installed, skipping..."
+else
+    echo "Installing Emscripten..."
+    git clone https://github.com/emscripten-core/emsdk.git
+    cd emsdk
+fi
 cd emsdk
 
 # Fetch and install the latest Emscripten SDK
@@ -36,7 +42,7 @@ cd build
 
 # Run the CMake configuration for WebAssembly (PLATFORM_WEB)
 echo "Configuring project for WebAssembly build..."
-emcmake cmake -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release ..
+emcmake cmake  -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release ..
 
 # Build the project using emmake (Emscripten's version of make)
 echo "Building project..."
@@ -44,7 +50,8 @@ emmake make
 
 # Package the build into a zip file (assuming the output is index.html, .wasm, and .js files)
 echo "Packaging build into a zip file..."
-cp my_game.html index.html
-zip raylib_web_game.zip *.html *.wasm *.js
+#cp my_game.html index.html
+zip raylib_web_game.zip *.html *.wasm *.js *.data
 
 echo "Build complete. Packaged as raylib_web_game.zip."
+#python3 -m http.server 8000
