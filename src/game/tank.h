@@ -1,11 +1,10 @@
 #ifndef TANK_H
 #define TANK_H
 
-#include "gameobject.h"
 
 #include "raylib.h"
 
-#include "MoveableCube.h"
+#include "../engine/MoveableCube.h"
 
 class Tank : public MoveableCube {
 public:

@@ -1,5 +1,5 @@
 #include "raylib-cpp.hpp"
-#include "tank.h"
+#include "../game/tank.h"
 #include <string>
 #include <stdio.h>
 #include <dirent.h> 
@@ -96,7 +96,8 @@ void UpdateDrawFrame(void){
     }
 
 
-
+// Just  a debug function, troubleshooting the file path issue
+// Happens with web builds
 void list_files(const char *path) {
     struct dirent *entry;
     DIR *dp = opendir(path);
