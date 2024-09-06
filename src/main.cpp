@@ -1,6 +1,8 @@
 #include "raylib-cpp.hpp"
 #include "tank.h"
 #include <string>
+#include <stdio.h>
+#include <dirent.h> 
 using namespace std;
 
 #if defined(PLATFORM_WEB)
@@ -11,10 +13,12 @@ Camera3D camera;
 Tank* tank = nullptr;
 GameObject* prototype = nullptr; 
 void UpdateDrawFrame(void);
+void list_files(const char *path);
 
 int main() {
     int screenWidth = 800;
     int screenHeight = 450;
+    list_files("/resources");
 
     raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
 
@@ -34,7 +38,10 @@ int main() {
     camera.projection = CAMERA_PERSPECTIVE;
     prototype = new GameObject(tankPosition, 0.0f, 3.0f);
     //prototype->LoadGameModel("/resources/animal-bison.obj", "/resources/KennyAssets/Prototype/Models/OBJ format/Textures/colormap.png");
+    
     prototype->LoadGameModel("resources/animal-bison.obj", "resources/colormap.png");
+    //    prototype->LoadGameModel("animal-bison.obj", "colormap.png");
+
     prototype->scale = 10;  
     prototype->rotation = 180; 
 #if defined(PLATFORM_WEB)
@@ -76,7 +83,7 @@ void UpdateDrawFrame(void){
         }
         // Draw the tank
         tank->Draw();
-        prototype->DrawGameModel();
+       prototype->DrawGameModel();
         prototype->Update(deltaTime);
         // Draw a grid
         DrawGrid(20, 1.0f);
@@ -87,3 +94,22 @@ void UpdateDrawFrame(void){
 
         EndDrawing();
     }
+
+
+
+void list_files(const char *path) {
+    struct dirent *entry;
+    DIR *dp = opendir(path);
+
+    if (dp == NULL) {
+        printf("Could not open directory: %s\n", path);
+        return;
+    }
+
+    printf("Listing files in directory: %s\n", path);
+    while ((entry = readdir(dp)) != NULL) {
+        printf("%s\n", entry->d_name);
+    }
+
+    closedir(dp);
+}

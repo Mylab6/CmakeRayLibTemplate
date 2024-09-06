@@ -50,7 +50,8 @@ emmake make
 
 # Package the build into a zip file (assuming the output is index.html, .wasm, and .js files)
 echo "Packaging build into a zip file..."
-cp my_game.html index.html
+#cp my_game.html index.html
 zip raylib_web_game.zip *.html *.wasm *.js *.data
 
 echo "Build complete. Packaged as raylib_web_game.zip."
+#python3 -m http.server 8000

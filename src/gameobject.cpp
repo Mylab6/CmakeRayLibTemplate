@@ -1,6 +1,5 @@
 #include "gameobject.h"
 #include "raylib-cpp.hpp"
-#include <iostream>
 #include "raylib.h"
 
 void GameObject::Translate(const Vector3& translation) {

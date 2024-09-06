@@ -11,11 +11,12 @@ if (EMSCRIPTEN)
 
 	set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
 
-	set_target_properties( PROPERTIES COMPILE_FLAGS "-Os -s SIDE_MODULE=1 ")
-	set_target_properties( PROPERTIES LINK_FLAGS    "-Os -s WASM=1 -s SIDE_MODULE=1 -s STANDALONE_WASM --no-entry")
+	set_target_properties( PROPERTIES COMPILE_FLAGS "-Os -s SIDE_MODULE=1  --preload-file ${CMAKE_SOURCE_DIR}/resources")
+	set_target_properties( PROPERTIES LINK_FLAGS    "-Os -s WASM=1 --preload-file ${CMAKE_SOURCE_DIR}/resources -s SIDE_MODULE=1 -s STANDALONE_WASM --no-entry")
 
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 --preload-file ${CMAKE_SOURCE_DIR}/resources -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
   set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so taht you can directly open it.
+
 endif ()
 # Fetch raylib and raygui via FetchContent
 include(FetchContent)
@@ -79,28 +80,24 @@ file(GLOB_RECURSE SRC_FILES_CPP "${CMAKE_SOURCE_DIR}/src/*.cpp")
 set(SRC_FILES ${SRC_FILES_C} ${SRC_FILES_CPP})
 
 # Add the executable using all source files found
-add_executable(my_game ${SRC_FILES})
+add_executable(index ${SRC_FILES})
 
 # Link raylib to the project
 
-target_link_libraries(my_game raylib)
-target_link_libraries(my_game stdc++)
-target_link_libraries(my_game raylib_cpp)
-
-
+target_link_libraries(index raylib)
+target_link_libraries(index stdc++)
+target_link_libraries(index raylib_cpp)
 if (EMSCRIPTEN)
-    target_link_options(my_game PRIVATE
-        -Os
-        -s WASM=1
-       
-        --no-entry
-        --preload-file ${CMAKE_SOURCE_DIR}/resources
-    )
-endif()
 
+  target_link_options(index PRIVATE
+        -Os
+        "-s WASM=1"
+        --preload-file ${CMAKE_SOURCE_DIR}/resources@/resources
+    )
+  endif()
 # Set compilation flags
 if (APPLE)
-    target_link_libraries(my_game "-framework OpenGL" "-framework Cocoa" 
+    target_link_libraries(index "-framework OpenGL" "-framework Cocoa" 
 "-framework IOKit" "-framework CoreVideo")
 else()
 if (UNIX)
