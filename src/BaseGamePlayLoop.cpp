@@ -37,7 +37,7 @@ void BaseGamePlayLoop::InitGame(){
     std::uniform_real_distribution<float> dis(-1.0f, 1.0f); // Generates random float values between -1 and 1
 
     // Create a bunch of other boxes with randomized velocities
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < 5; i++) {
         float randomX = dis(gen);
         float randomY = dis(gen);
         float randomZ = dis(gen);
