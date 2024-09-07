@@ -19,6 +19,8 @@ private:
     raylib::Window *window;
     Tank *tank;
     Vector3 tankPosition;
+    int screenWidth;
+    int screenHeight;
 };
 
 #endif // BASEGAMEPLAYLOOP_H

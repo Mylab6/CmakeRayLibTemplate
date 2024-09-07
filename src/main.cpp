@@ -9,18 +9,18 @@ using namespace std;
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
-raylib::Window  window; 
-Camera3D camera; 
-Tank* tank = nullptr;
-GameObject* prototype = nullptr; 
+//raylib::Window  window; 
+//Camera3D camera; 
+//Tank* tank = nullptr;
+//GameObject* prototype = nullptr; 
 void UpdateDrawFrame(void);
 void list_files(const char *path);
 BaseGamePlayLoop* gamePlayLoop ;
 int main() {
 
    // list_files("/resources");
-    int screenWidth = 800;
-    int screenHeight = 450;
+    int screenWidth = 600;
+    int screenHeight = 600;
     //raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
     gamePlayLoop = new BaseGamePlayLoop(screenHeight,screenWidth,"GamePlayLoop");
 

@@ -6,9 +6,5 @@ Tank::Tank(const Vector3& position, float rotation, float scale,  Color color, c
 
 void Tank::Draw() {
 
-    ::DrawCube(position, scale, scale, scale, color);
-    
-    // Draw cube
-   // DrawCube(position, scale, scale, scale, color);
-    ::DrawCubeWires(position, scale,  scale, scale, DARKGRAY);
+    MoveableCube::Draw();
 }
