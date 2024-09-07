@@ -1,13 +1,23 @@
+// Global module fragment
+module;
+
+// Traditional includes go here
 #include "raylib-cpp.hpp"
 #include "../game/tank.h"
 #include <string>
 #include <stdio.h>
 #include <dirent.h>
-import GamePlayLoop; 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
 
+// Module declaration
+module main;
+
+// Imports go here
+import GamePlayLoop;
+
+// The rest of your code
 GamePlayLoop* gameLoop = nullptr;
 
 void UpdateDrawFrame(void) {
