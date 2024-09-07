@@ -1,39 +1,44 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include <iostream>
-
 #include "raylib-cpp.hpp"
-//#include <string>
 #include "raylib.h"
-
-using namespace std;
+#include <string>
 
 class GameObject {
 public:
+    GameObject(const std::string& name, const Vector3& position, float rotation, float scale, const Vector3& velocity = {0.0f, 0.0f, 0.0f});
+
+    void Translate(const Vector3& translation);
+    void Rotate(float angle);
+    void Update(float deltaTime);
+    void LoadGameModel(const std::string& modelPath, const std::string& texturePath);
+    void DrawGameModel() const;
+    void DrawCubeOnGameObject() const;
+    virtual void Draw() const;
+
+    void SetColor(Color color);
+    Color color = WHITE;
+
+
+    // Getter methods (you might want to add these)
+    const std::string& GetName() const { return name; }
+    const Vector3& GetPosition() const { return position; }
+    float GetRotation() const { return rotation; }
+    float GetScale() const { return scale; }
+    const Vector3& GetVelocity() const { return velocity; }
+
+    // Setter methods (if needed)
+    void SetVelocity(const Vector3& newVelocity) { velocity = newVelocity; }
+
+protected:
+    std::string name;
     Vector3 position;
     float rotation;
     float scale;
-    Vector3 velocity;  // New field
-    void Translate(Vector3 translation);
-    void Rotate(float angle);
-    void Update(float deltaTime);  // New method to update position based on velocity
-   // string Name ; 
-    // 
-    void LoadGameModel(string modelPath, string texturePath);
-
-    void LoadGameModel();
-
-    Model model ;
-    bool modelLoaded = false;
-    Texture2D texture ;
-    //model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;   
-    void DrawGameModel();
-    virtual void Draw(); 
-    virtual ~GameObject() = default;  // Virtual destructor is crucial
-    void DrawCubeOnGameObject();
-
-    GameObject(string name,  Vector3 position, float rotation, float scale, Vector3 velocity = {0.0f, 0.0f, 0.0f});
+    Vector3 velocity;
+    Model model;
+    Texture2D texture;
 };
 
 #endif // GAMEOBJECT_H

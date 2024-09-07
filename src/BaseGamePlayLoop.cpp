@@ -5,21 +5,21 @@
 #include <dirent.h>
 #include <vector>
 #include "gameobject.h"
+#include <memory>
+
 using namespace std;
 
 BaseGamePlayLoop::BaseGamePlayLoop(float screenWidth, float screenHeight, string WindowName)
+    : screenWidth(screenWidth), screenHeight(screenHeight)
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-    this->window = new raylib::Window(screenWidth, screenHeight, WindowName);
-    this->screenWidth = screenWidth;
-  //  this-> tank =
-    this->screenHeight = screenHeight;
+    window = std::make_unique<raylib::Window>(screenWidth, screenHeight, WindowName);
 }
-void BaseGamePlayLoop::AddGameObject(GameObject gameObject) {
 
-    LoopGameObjects.push_back(&     gameObject); 
-
+void BaseGamePlayLoop::AddGameObject(std::unique_ptr<GameObject> gameObject) {
+    LoopGameObjects.push_back(std::move(gameObject));
 }
+
 void BaseGamePlayLoop::InitGame(){
     SetTargetFPS(60);
     camera = {0};
@@ -30,14 +30,10 @@ void BaseGamePlayLoop::InitGame(){
     camera.projection = CAMERA_PERSPECTIVE;
     tankPosition = {0.0f, 0.0f, 0.0f};
 
-
-
-    AddGameObject(GameObject("BlueBox" ,tankPosition, 0.0f, 3.0f, {4.0f, 0.0f, 0.0f}));
+    AddGameObject(std::make_unique<GameObject>("BlueBox", tankPosition, 0.0f, 6.0f, Vector3{4.0f, 0.0f, 0.0f}));
 }
 
-
 void BaseGamePlayLoop::RunGamePlayLoop(){
-    // Update screen size if window is resized
     int newWidth = GetScreenWidth();
     int newHeight = GetScreenHeight();
     if (newWidth != screenWidth || newHeight != screenHeight) {
@@ -52,49 +48,44 @@ void BaseGamePlayLoop::RunGamePlayLoop(){
 
     BeginDrawing();
 
-    this->window->ClearBackground(BLACK);
+    window->ClearBackground(BLACK);
 
-    // Begin 3D mode with the camera
     BeginMode3D(camera);
 
-    int tankPositionX = 0 ;
-    // Draw a grid
     DrawGrid(screenWidth, 1.0f);
-    int objectCount = 0; 
 
-    for(GameObject* vectorGameObject : LoopGameObjects) {
-        if (vectorGameObject != nullptr) {
-            objectCount++;
-            GameObject& originalObject = *vectorGameObject;  // This gives you the original object
+    for (auto& gameObject : LoopGameObjects) {
+        gameObject->Update(deltaTime);
+        gameObject->DrawCubeOnGameObject();
 
-            // So their's a tank class that inherits from 
-                          // Game object, 
-            // I want to call it's draw,
-            // How best can I do that ??
-            originalObject.Update(deltaTime);
-    
-            //originalObject.DrawCubeOnGameObject();  
-            tankPositionX = originalObject.position.x;
-    
-            if(tankPositionX > 10.0f){
-                originalObject.velocity.x = -4.0f;
-              //  vectorGameObject.color = RED;
-            }else if(tankPositionX < -10.0f){
-             originalObject.velocity.x = 4.0f;
-               // vectorGameObject.color = BLUE;
+        // Bounce logic
+        if (gameObject->GetPosition().x > 10.0f || gameObject->GetPosition().x < -10.0f) {
+            Vector3 velocity = gameObject->GetVelocity();
+            velocity.x = -velocity.x;
+            gameObject->SetVelocity(velocity);
+
+            if(gameObject->color.b == RED.b) {
+                gameObject->color = BLUE;
+            }else {
+                gameObject->SetColor(RED);
             }
+
         }
     }
 
+    DrawCircle3D(tankPosition, 5.0f, {0.0f, 1.0f, 0.0f}, 90.0f, GREEN);
+
     EndMode3D();
 
-    // Draw UI elements
     DrawFPS(10, 10);
-    string tankPosition = "Tank POS X " + to_string(tankPositionX);
-    DrawText(tankPosition.c_str(), 10, 40, 20, GREEN);
+    
+    if (!LoopGameObjects.empty()) {
+        string tankPosition = "Tank POS X " + to_string(LoopGameObjects[0]->GetPosition().x);
+        DrawText(tankPosition.c_str(), 10, 40, 20, GREEN);
+    }
 
-    string gameObjectCount  = "GameObject Count " + to_string(objectCount);
-    DrawText(gameObjectCount        .c_str(), 10, 50, 20, GREEN);
+    string gameObjectCount = "GameObject Count " + to_string(LoopGameObjects.size());
+    DrawText(gameObjectCount.c_str(), 10, 50, 20, GREEN);
 
     EndDrawing();
 }

@@ -2,30 +2,25 @@
 #define BASEGAMEPLAYLOOP_H
 
 #include "raylib-cpp.hpp"
-#include <string>
-#include <stdio.h>
-#include <dirent.h>
 #include "gameobject.h"
-
+#include <string>
 #include <vector>
+#include <memory>
 
-
-class BaseGamePlayLoop
-{
+class BaseGamePlayLoop {
 public:
-    Camera camera;
-    void RunGamePlayLoop();
+    BaseGamePlayLoop(float screenWidth, float screenHeight, std::string WindowName);
+    void AddGameObject(std::unique_ptr<GameObject> gameObject);
     void InitGame();
-    std::vector<GameObject*> LoopGameObjects;
+    void RunGamePlayLoop();
 
-    BaseGamePlayLoop(float screenWidth, float screenHeight, string WindowName);
-    void AddGameObject(GameObject gameObject);
 private:
-    raylib::Window *window;
-   // Tank tank;
+    std::unique_ptr<raylib::Window> window;
+    float screenWidth;
+    float screenHeight;
+    Camera3D camera;
     Vector3 tankPosition;
-    int screenWidth;
-    int screenHeight;
+    std::vector<std::unique_ptr<GameObject>> LoopGameObjects;
 };
 
 #endif // BASEGAMEPLAYLOOP_H
