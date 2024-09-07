@@ -26,7 +26,12 @@ jobs:
 
         # Install Wayland and XKB dependencies (in case they're needed, but can be skipped for WebAssembly)
         sudo apt-get install -y libwayland-dev wayland-protocols libxkbcommon-dev libx11-dev libegl1-mesa-dev
-
+        sudo test -f /usr/share/doc/kitware-archive-keyring/copyright ||
+        sudo wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+        echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+        sudo apt-get update
+        sudo apt-get install -y kitware-archive-keyring
+        sudo apt-get install -y cmake
     - name: Install Emscripten
       run: |
         echo "Installing Emscripten..."
@@ -69,7 +74,7 @@ jobs:
 
     - name: Package Web Build into Zip
       run: |
-        cd build
+        cd build/
         # Package the build into a zip file
 
         zip raylib_web_game.zip *.html *.wasm *.js *.data
