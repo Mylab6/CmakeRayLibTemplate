@@ -42,7 +42,7 @@ cd build
 
 # Run the CMake configuration for WebAssembly (PLATFORM_WEB)
 echo "Configuring project for WebAssembly build..."
-emcmake cmake  -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release ..
+emcmake cmake -DCMAKE_C_COMPILER=/usr/bin/gcc-13 -DCMAKE_CXX_COMPILER=/usr/bin/g++-13  -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release ..
 
 # Build the project using emmake (Emscripten's version of make)
 echo "Building project..."

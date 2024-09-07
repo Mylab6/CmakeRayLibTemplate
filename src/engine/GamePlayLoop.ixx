@@ -1,9 +1,11 @@
-export module GamePlayLoop;
+module;
 
-import <string>;
-import <raylib-cpp.hpp>;
-import "tank.h";
-import "gameobject.h";
+#include <raylib-cpp.hpp>
+#include "../game/tank.h"
+#include "gameobject.h"
+#include <string>
+
+export module GamePlayLoop;
 
 export class GamePlayLoop {
 public:
@@ -21,12 +23,7 @@ private:
     void InitializePrototype();
 };
 
-module : private;
-
-#include <raylib-cpp.hpp>
-#include "../game/tank.h"
-#include "gameobject.h"
-
+// Implementation
 GamePlayLoop::GamePlayLoop(raylib::Window& win) : window(win) {
     InitializeCamera();
     InitializeTank();

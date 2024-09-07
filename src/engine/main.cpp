@@ -3,8 +3,7 @@
 #include <string>
 #include <stdio.h>
 #include <dirent.h>
-#include "GamePlayLoop.ixx"
-
+import GamePlayLoop; 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
