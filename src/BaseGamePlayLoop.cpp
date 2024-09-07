@@ -32,7 +32,7 @@ void BaseGamePlayLoop::InitGame(){
 
 
 
-    AddGameObject(GameObject("BlueBox" ,tankPosition, 0.0f, 3.0f,tankPosition ));
+    AddGameObject(GameObject("BlueBox" ,tankPosition, 0.0f, 3.0f, {4.0f, 0.0f, 0.0f}));
 }
 
 
@@ -60,22 +60,29 @@ void BaseGamePlayLoop::RunGamePlayLoop(){
     int tankPositionX = 0 ;
     // Draw a grid
     DrawGrid(screenWidth, 1.0f);
+    int objectCount = 0; 
+
     for(GameObject* vectorGameObject : LoopGameObjects) {
-        // So their's a tank class that inherits from 
-        // Game object, 
-        // I want to call it's draw,
-        // How best can I do that ??
-        vectorGameObject->Update(deltaTime);
+        if (vectorGameObject != nullptr) {
+            objectCount++;
+            GameObject& originalObject = *vectorGameObject;  // This gives you the original object
 
-        vectorGameObject->DrawCubeOnGameObject();  
-        tankPositionX = vectorGameObject->position.x;
-
-        if(tankPositionX > 10.0f){
-            vectorGameObject->velocity.x = -4.0f;
-          //  vectorGameObject.color = RED;
-        }else if(tankPositionX < -10.0f){
-            vectorGameObject->velocity.x = 4.0f;
-           // vectorGameObject.color = BLUE;
+            // So their's a tank class that inherits from 
+                          // Game object, 
+            // I want to call it's draw,
+            // How best can I do that ??
+            originalObject.Update(deltaTime);
+    
+            //originalObject.DrawCubeOnGameObject();  
+            tankPositionX = originalObject.position.x;
+    
+            if(tankPositionX > 10.0f){
+                originalObject.velocity.x = -4.0f;
+              //  vectorGameObject.color = RED;
+            }else if(tankPositionX < -10.0f){
+             originalObject.velocity.x = 4.0f;
+               // vectorGameObject.color = BLUE;
+            }
         }
     }
 
@@ -86,9 +93,8 @@ void BaseGamePlayLoop::RunGamePlayLoop(){
     string tankPosition = "Tank POS X " + to_string(tankPositionX);
     DrawText(tankPosition.c_str(), 10, 40, 20, GREEN);
 
-
-    string gameObjectCount  = "GameObject Count " + to_string(LoopGameObjects.size);
-    DrawText(gameObjectCount.c_str(), 10, 50, 20, GREEN);
+    string gameObjectCount  = "GameObject Count " + to_string(objectCount);
+    DrawText(gameObjectCount        .c_str(), 10, 50, 20, GREEN);
 
     EndDrawing();
 }
