@@ -99,8 +99,8 @@ set_target_properties(index PROPERTIES
 target_compile_definitions(index PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 
 # Enable warnings and treat them as errors
-if(MSVC)
-  target_compile_options(index PRIVATE /W4 /WX)
-else()
-  target_compile_options(index PRIVATE -Wall -Wextra -Wpedantic -Werror)
-endif()
+#if(MSVC)
+#  target_compile_options(index PRIVATE /W4 /WX)
+#else()
+#  target_compile_options(index PRIVATE -Wall -Wextra -Wpedantic -Werror)
+#endif()

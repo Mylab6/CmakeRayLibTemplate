@@ -55,7 +55,7 @@ void BaseGamePlayLoop::RunGamePlayLoop(){
     // Draw the tank
     // Draw a grid
     DrawGrid(20, 1.0f);
-
+    tank->Draw();
     EndMode3D();
     string tankPosition = "Tank POS X " + to_string(tankPositionX);
     DrawText(tankPosition.c_str(), 190, 200, 20, GREEN);
