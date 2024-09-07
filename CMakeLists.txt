@@ -1,115 +1,101 @@
-
-
-
-
-
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.16)
 project(my_project C CXX)
 
-if (EMSCRIPTEN)
-  include_directories(${EMSCRIPTEN_INCLUDE_DIR})
+# Emscripten configuration
+if(EMSCRIPTEN)
+  set(CMAKE_EXECUTABLE_SUFFIX ".html")
+  set(EMSCRIPTEN_FLAGS "-s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EMSCRIPTEN_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EMSCRIPTEN_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s SIDE_MODULE=1 -s STANDALONE_WASM --no-entry")
+endif()
 
-	set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
+# GLFW configuration for Unix systems
+if(UNIX AND NOT APPLE AND NOT EMSCRIPTEN)
+  set(GLFW_BUILD_WAYLAND OFF CACHE BOOL "Build Wayland backend")
+  set(GLFW_BUILD_X11 ON CACHE BOOL "Build X11 backend")
+endif()
 
-	set_target_properties( PROPERTIES COMPILE_FLAGS "-Os -s SIDE_MODULE=1  --preload-file ${CMAKE_SOURCE_DIR}/resources")
-	set_target_properties( PROPERTIES LINK_FLAGS    "-Os -s WASM=1 --preload-file ${CMAKE_SOURCE_DIR}/resources -s SIDE_MODULE=1 -s STANDALONE_WASM --no-entry")
-
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 --preload-file ${CMAKE_SOURCE_DIR}/resources -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
-  set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so taht you can directly open it.
-
-endif ()
-# Fetch raylib and raygui via FetchContent
+# Fetch external dependencies
 include(FetchContent)
 
-# Fetch raylib
+# Declare dependencies
 FetchContent_Declare(
   raylib
   GIT_REPOSITORY https://github.com/raysan5/raylib.git
   GIT_TAG master
 )
-FetchContent_MakeAvailable(raylib)
 
-# Fetch raygui
 FetchContent_Declare(
   raygui
   GIT_REPOSITORY https://github.com/raysan5/raygui.git
   GIT_TAG master
 )
-FetchContent_MakeAvailable(raygui)
 
 FetchContent_Declare(
   physac
   GIT_REPOSITORY https://github.com/victorfisac/Physac.git
-  GIT_TAG        master # You can specify a particular tag, branch, or commit
+  GIT_TAG master
 )
-find_package(raylib_cpp QUIET)
-if (NOT raylib_cpp_FOUND)
-    if (NOT DEFINED RAYLIB_CPP_VERSION)
-        set(RAYLIB_CPP_VERSION v5.0.2)
-    endif()
-    include(FetchContent)
-    FetchContent_Declare(
-        raylib_cpp
-        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
-        GIT_TAG ${RAYLIB_CPP_VERSION}
-    )
-    FetchContent_MakeAvailable(raylib_cpp)
-endif()
 
-# Fetch Physac
-FetchContent_MakeAvailable(physac)
-#FetchContent_MakeAvailable(raylib-cpp)
+FetchContent_Declare(
+  raylib_cpp
+  GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+  GIT_TAG v5.0.2
+)
 
-include_directories(${physac_SOURCE_DIR}/src)
+# Make dependencies available
+FetchContent_MakeAvailable(raylib raygui physac raylib_cpp)
 
-# Include the raygui header path
-include_directories(${raygui_SOURCE_DIR}/src)
+# Include directories
+include_directories(
+  ${physac_SOURCE_DIR}/src
+  ${raygui_SOURCE_DIR}/src
+  ${CMAKE_SOURCE_DIR}/resources
+)
 
-# Add the executable
+# Gather source files
+file(GLOB_RECURSE SRC_FILES
+  "${CMAKE_SOURCE_DIR}/src/*.c"
+  "${CMAKE_SOURCE_DIR}/src/*.cpp"
+)
 
-# Include the necessary directories
-include_directories(${physac_SOURCE_DIR}/src)
-include_directories(${raygui_SOURCE_DIR}/src)
-include_directories(${CMAKE_SOURCE_DIR}/resources) # Include the resources directory
-
-# Recursively find all .c and .cpp files in the src directory
-file(GLOB_RECURSE SRC_FILES_C "${CMAKE_SOURCE_DIR}/src/*.c")
-file(GLOB_RECURSE SRC_FILES_CPP "${CMAKE_SOURCE_DIR}/src/*.cpp")
-
-# Combine .c and .cpp files into one list
-set(SRC_FILES ${SRC_FILES_C} ${SRC_FILES_CPP})
-
-# Add the executable using all source files found
+# Add executable
 add_executable(index ${SRC_FILES})
 
-# Link raylib to the project
+# Link libraries
+target_link_libraries(index PRIVATE raylib raylib_cpp)
 
-target_link_libraries(index raylib)
-target_link_libraries(index stdc++)
-target_link_libraries(index raylib_cpp)
-if (EMSCRIPTEN)
-
-  target_link_options(index PRIVATE
-        -Os
-        "-s WASM=1"
-        --preload-file ${CMAKE_SOURCE_DIR}/resources@/resources
-    )
-  endif()
-# Set compilation flags
-if (APPLE)
-    target_link_libraries(index "-framework OpenGL" "-framework Cocoa" 
-"-framework IOKit" "-framework CoreVideo")
-else()
-if (UNIX)
-# On Linux, disable Wayland and ensure xkbcommon is available
-  message(STATUS "Compiling on Linux/Unix")
-
-# Disable Wayland support
-  set(GLFW_USE_WAYLAND OFF CACHE BOOL "" FORCE)
-
-# Check for xkbcommon library
+if(APPLE)
+  target_link_libraries(index PRIVATE "-framework OpenGL" "-framework Cocoa" "-framework IOKit" "-framework CoreVideo")
+elseif(UNIX AND NOT APPLE AND NOT EMSCRIPTEN)
   find_package(PkgConfig REQUIRED)
-  #pkg_check_modules(XKBCOMMON REQUIRED xkbcommon>=0.5.0)
-
+  # Uncomment the following line if you need xkbcommon
+  # pkg_check_modules(XKBCOMMON REQUIRED xkbcommon>=0.5.0)
 endif()
+
+# Emscripten-specific link options
+if(EMSCRIPTEN)
+  target_link_options(index PRIVATE
+    -Os
+    -s WASM=1
+    --preload-file ${CMAKE_SOURCE_DIR}/resources@/resources
+  )
+endif()
+
+# Set properties for all configurations
+set_target_properties(index PROPERTIES
+  CXX_STANDARD 17
+  CXX_STANDARD_REQUIRED ON
+  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# Add compile definitions for debug builds
+target_compile_definitions(index PRIVATE $<$<CONFIG:Debug>:DEBUG>)
+
+# Enable warnings and treat them as errors
+if(MSVC)
+  target_compile_options(index PRIVATE /W4 /WX)
+else()
+  target_compile_options(index PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()

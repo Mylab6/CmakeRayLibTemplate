@@ -1,3 +1,4 @@
+#include "basegameplayloop.h"
 #include "raylib-cpp.hpp"
 #include "tank.h"
 #include <string>
@@ -14,7 +15,7 @@ Tank* tank = nullptr;
 GameObject* prototype = nullptr; 
 void UpdateDrawFrame(void);
 void list_files(const char *path);
-
+BaseGamePlayLoop gamePlayLoop ;
 int main() {
     int screenWidth = 800;
     int screenHeight = 450;
@@ -30,6 +31,7 @@ int main() {
     tank =  new Tank(tankPosition, 0.0f, 3.0f, BLUE);
     tank->velocity.x = 1.0f;
     // Camera setup
+    gamePlayLoop.InitGame();
     camera = { 0 };
     camera.position = (Vector3){ 10.0f, 10.0f, 10.0f };
     camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
@@ -38,7 +40,7 @@ int main() {
     camera.projection = CAMERA_PERSPECTIVE;
     prototype = new GameObject(tankPosition, 0.0f, 3.0f);
     //prototype->LoadGameModel("/resources/animal-bison.obj", "/resources/KennyAssets/Prototype/Models/OBJ format/Textures/colormap.png");
-    
+
     prototype->LoadGameModel("resources/animal-bison.obj", "resources/colormap.png");
     //    prototype->LoadGameModel("animal-bison.obj", "colormap.png");
 
