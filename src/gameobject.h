@@ -12,6 +12,9 @@ public:
     void Translate(const Vector3& translation);
     void Rotate(float angle);
     void Update(float deltaTime);
+
+    void ReverseVelocity();
+
     void LoadGameModel(const std::string& modelPath, const std::string& texturePath);
     void DrawGameModel() const;
     void DrawCubeOnGameObject() const;

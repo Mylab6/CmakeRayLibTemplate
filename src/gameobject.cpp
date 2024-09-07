@@ -18,7 +18,12 @@ void GameObject::Update(float deltaTime) {
     position.y += velocity.y * deltaTime;
     position.z += velocity.z * deltaTime;
 }
+void GameObject::ReverseVelocity() {
+    velocity.x = -velocity.x;
+    velocity.y = -velocity.y;
+    velocity.z = -velocity.z;
 
+}
 void GameObject::LoadGameModel(const std::string& modelPath, const std::string& texturePath) {
     model = LoadModel(modelPath.c_str());
     texture = LoadTexture(texturePath.c_str());

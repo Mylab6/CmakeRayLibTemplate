@@ -18,8 +18,8 @@ BaseGamePlayLoop* gamePlayLoop ;
 int main() {
 
    // list_files("/resources");
-    int screenWidth = 300;
-    int screenHeight = 300;
+    int screenWidth = 900;
+    int screenHeight = 900;
     //raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
     gamePlayLoop = new BaseGamePlayLoop(screenHeight,screenWidth,"GamePlayLoop");
 

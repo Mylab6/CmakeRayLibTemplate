@@ -6,6 +6,7 @@
 #include <vector>
 #include "gameobject.h"
 #include <memory>
+#include <random>
 
 using namespace std;
 
@@ -30,7 +31,18 @@ void BaseGamePlayLoop::InitGame(){
     camera.projection = CAMERA_PERSPECTIVE;
     tankPosition = {0.0f, 0.0f, 0.0f};
 
-    AddGameObject(std::make_unique<GameObject>("BlueBox", tankPosition, 0.0f, 6.0f, Vector3{4.0f, 0.0f, 0.0f}));
+    // Create a random device and random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dis(-1.0f, 1.0f); // Generates random float values between -1 and 1
+
+    // Create a bunch of other boxes with randomized velocities
+    for(int i = 0; i < 20; i++) {
+        float randomX = dis(gen);
+        float randomY = dis(gen);
+        float randomZ = dis(gen);
+        AddGameObject(std::make_unique<GameObject>("Box#" + std::to_string(i), tankPosition, 0.0f, 6.0f, Vector3{randomX, randomY, randomZ}));
+    }
 }
 
 void BaseGamePlayLoop::RunGamePlayLoop(){
@@ -60,9 +72,7 @@ void BaseGamePlayLoop::RunGamePlayLoop(){
 
         // Bounce logic
         if (gameObject->GetPosition().x > 10.0f || gameObject->GetPosition().x < -10.0f) {
-            Vector3 velocity = gameObject->GetVelocity();
-            velocity.x = -velocity.x;
-            gameObject->SetVelocity(velocity);
+           gameObject->ReverseVelocity();
 
             if(gameObject->color.b == RED.b) {
                 gameObject->color = BLUE;
