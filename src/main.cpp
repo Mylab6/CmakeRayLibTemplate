@@ -19,13 +19,13 @@ BaseGamePlayLoop* gamePlayLoop ;
 int main() {
 
    // list_files("/resources");
-    int screenWidth = 600;
-    int screenHeight = 600;
+    int screenWidth = 300;
+    int screenHeight = 300;
     //raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
     gamePlayLoop = new BaseGamePlayLoop(screenHeight,screenWidth,"GamePlayLoop");
 
 
-    SetTargetFPS(60);
+  //  SetTargetFPS(60);
 
     // Create a tank in the center of the screen
 

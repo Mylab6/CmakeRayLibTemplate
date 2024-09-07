@@ -10,8 +10,8 @@
 class Tank : public MoveableCube {
 public:
 
-    Tank(const Vector3& position, float rotation, float scale, Color color, const Vector3& velocity = {0.0f, 0.0f, 0.0f});
-    void Draw();
+    Tank(Vector3 position, float rotation, float scale, Color color,Vector3 velocity);
+    void Draw() override;
 };
 
-#endif // TANK_H
+#endif // TANK_HA

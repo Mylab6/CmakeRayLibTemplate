@@ -4,6 +4,8 @@
 #include <string>
 #include <stdio.h>
 #include <dirent.h>
+#include <vector>
+#include "gameobject.h"
 using namespace std;
 
 BaseGamePlayLoop::BaseGamePlayLoop(float screenWidth, float screenHeight, string WindowName)
@@ -13,7 +15,11 @@ BaseGamePlayLoop::BaseGamePlayLoop(float screenWidth, float screenHeight, string
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
 }
+void BaseGamePlayLoop::AddGameObject(GameObject gameObject) {
 
+    LoopGameObjects.push_back(gameObject); 
+
+}
 void BaseGamePlayLoop::InitGame(){
     SetTargetFPS(60);
     camera = {0};
@@ -24,9 +30,12 @@ void BaseGamePlayLoop::InitGame(){
     camera.projection = CAMERA_PERSPECTIVE;
     tankPosition = {0.0f, 0.0f, 0.0f};
 
-    tank = new Tank(tankPosition, 0.0f, 3.0f, BLUE);
-    tank->velocity.x = 1.0f;
+    tank = Tank(tankPosition, 0.0f, 3.0f, BLUE, tankPosition ) ;
+
+    tank.velocity.x = 1.0f;
+    AddGameObject(tank);
 }
+
 
 void BaseGamePlayLoop::RunGamePlayLoop(){
     // Update screen size if window is resized
@@ -41,27 +50,30 @@ void BaseGamePlayLoop::RunGamePlayLoop(){
 
     UpdateCamera(&camera, CAMERA_ORBITAL);
     float deltaTime = GetFrameTime();
-    tank->Update(deltaTime);
+    tank.Update(deltaTime);
 
     BeginDrawing();
 
-    this->window->ClearBackground(GREEN             );
+    this->window->ClearBackground(BLACK);
 
     // Begin 3D mode with the camera
     BeginMode3D(camera);
-    int tankPositionX = tank->position.x;
+    int tankPositionX = tank.position.x;
 
     if(tankPositionX > 10.0f){
-        tank->velocity.x = -4.0f;
-        tank->color = RED;
+        tank.velocity.x = -4.0f;
+        tank.color = RED;
     }else if(tankPositionX < -10.0f){
-        tank->velocity.x = 4.0f;
-        tank->color = BLUE;
+        tank.velocity.x = 4.0f;
+        tank.color = BLUE;
     }
 
     // Draw a grid
     DrawGrid(screenWidth, 1.0f);
-    tank->Draw();
+    for(GameObject vectorGameObject : LoopGameObjects) {
+        vectorGameObject.Draw(); 
+    }
+
     EndMode3D();
 
     // Draw UI elements

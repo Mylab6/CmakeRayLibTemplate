@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "raylib-cpp.hpp"
-#include <string>
+//#include <string>
 #include "raylib.h"
 
 using namespace std;
@@ -18,7 +18,8 @@ public:
     void Translate(const Vector3& translation);
     void Rotate(float angle);
     void Update(float deltaTime);  // New method to update position based on velocity
-
+   // string Name ; 
+    // 
     void LoadGameModel(string modelPath, string texturePath);
 
     void LoadGameModel();
@@ -28,7 +29,7 @@ public:
     Texture2D texture ;
     //model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;   
     void DrawGameModel();
-
+    virtual void Draw(); 
     GameObject(const Vector3& position, float rotation, float scale, const Vector3& velocity = {0.0f, 0.0f, 0.0f});
 };
 
