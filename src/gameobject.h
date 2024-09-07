@@ -15,7 +15,7 @@ public:
     float rotation;
     float scale;
     Vector3 velocity;  // New field
-    void Translate(const Vector3& translation);
+    void Translate(Vector3 translation);
     void Rotate(float angle);
     void Update(float deltaTime);  // New method to update position based on velocity
    // string Name ; 
@@ -30,7 +30,10 @@ public:
     //model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;   
     void DrawGameModel();
     virtual void Draw(); 
-    GameObject(const Vector3& position, float rotation, float scale, const Vector3& velocity = {0.0f, 0.0f, 0.0f});
+    virtual ~GameObject() = default;  // Virtual destructor is crucial
+    void DrawCubeOnGameObject();
+
+    GameObject(string name,  Vector3 position, float rotation, float scale, Vector3 velocity = {0.0f, 0.0f, 0.0f});
 };
 
 #endif // GAMEOBJECT_H

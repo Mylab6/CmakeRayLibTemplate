@@ -2,7 +2,7 @@
 #include "raylib-cpp.hpp"
 #include "raylib.h"
 
-void GameObject::Translate(const Vector3& translation) {
+void GameObject::Translate( Vector3 translation) {
     position.x += translation.x;
     position.y += translation.y;
     position.z += translation.z;
@@ -28,7 +28,17 @@ void GameObject::DrawGameModel() {
 
 
 }
+void GameObject::DrawCubeOnGameObject() {
+    
+    // Draw cube
+    std::cout << "Drawing a Cube" << std::endl;
 
+    DrawCube(position, scale, scale, scale, BLUE);
+    DrawCubeWires(position, scale, scale, scale, DARKGRAY);
+}
+void GameObject::Draw() {
+    std::cout << "Drawing a circle" << std::endl;
+}
 
-GameObject::GameObject(const Vector3& position, float rotation, float scale, const Vector3& velocity)
-    : position(position), rotation(rotation), scale(scale) ,velocity(velocity) {}
+GameObject::GameObject(string name,  Vector3 position, float rotation, float scale,Vector3 velocity)
+    :  position(position), rotation(rotation), scale(scale) ,velocity(velocity) {}
