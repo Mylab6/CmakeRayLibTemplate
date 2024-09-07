@@ -8,6 +8,7 @@ emsdk/
 unused_assets_dont_commit/
 # MacOS specific files
 .DS_Store
+cmake-build-debug/
 
 # Compiled binary files
 *.out
