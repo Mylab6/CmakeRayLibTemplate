@@ -1,6 +1,5 @@
 #include "basegameplayloop.h"
 #include "raylib-cpp.hpp"
-#include "tank.h"
 #include <string>
 #include <stdio.h>
 #include <dirent.h> 
@@ -9,23 +8,23 @@ using namespace std;
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
-raylib::Window  window; 
-Camera3D camera; 
-Tank* tank = nullptr;
-GameObject* prototype = nullptr; 
+//raylib::Window  window; 
+//Camera3D camera; 
+//Tank* tank = nullptr;
+//GameObject* prototype = nullptr; 
 void UpdateDrawFrame(void);
 void list_files(const char *path);
 BaseGamePlayLoop* gamePlayLoop ;
 int main() {
 
    // list_files("/resources");
-    int screenWidth = 800;
-    int screenHeight = 450;
+    int screenWidth = 900;
+    int screenHeight = 900;
     //raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
     gamePlayLoop = new BaseGamePlayLoop(screenHeight,screenWidth,"GamePlayLoop");
 
 
-    SetTargetFPS(60);
+  //  SetTargetFPS(60);
 
     // Create a tank in the center of the screen
 

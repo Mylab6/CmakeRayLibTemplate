@@ -77,10 +77,21 @@ file(GLOB_RECURSE SRC_FILES_C "${CMAKE_SOURCE_DIR}/src/*.c")
 file(GLOB_RECURSE SRC_FILES_CPP "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 # Combine .c and .cpp files into one list
-set(SRC_FILES ${SRC_FILES_C} ${SRC_FILES_CPP})
+set(SRC_FILES ${SRC_FILES_C} ${SRC_FILES_CPP}
+        src/BaseGamePlayLoop.cpp
+        src/basegameplayloop.h
+        src/gameobject.cpp
+        src/gameobject.h
+        src/main.cpp
+        src/gameobject.cpp
+        src/BaseGamePlayLoop.cpp
+        src/gameobject.h)
 
 # Add the executable using all source files found
-add_executable(index ${SRC_FILES})
+add_executable(index ${SRC_FILES}
+        src/gameobject.cpp
+        src/BaseGamePlayLoop.cpp
+        src/gameobject.h)
 
 # Link raylib to the project
 

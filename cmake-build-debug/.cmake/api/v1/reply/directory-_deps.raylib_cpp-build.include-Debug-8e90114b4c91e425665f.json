@@ -1,0 +1,85 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"cmake-build-debug/_deps/raylib_cpp-src/include/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 53,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "include",
+			"paths" : 
+			[
+				"cmake-build-debug/_deps/raylib_cpp-src/include/AudioDevice.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/AudioStream.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/AutomationEventList.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/BoundingBox.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Camera2D.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Camera3D.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Color.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/FileData.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/FileText.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Font.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Functions.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Gamepad.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Image.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Keyboard.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Material.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Matrix.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Mesh.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/MeshUnmanaged.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Model.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/ModelAnimation.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Mouse.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Music.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Ray.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/RayCollision.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/RaylibException.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/raylib-cpp-utils.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/raylib-cpp.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/raylib.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/raymath.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Rectangle.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/RenderTexture.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Shader.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Sound.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Text.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Texture.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/TextureUnmanaged.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Touch.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Vector2.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Vector3.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Vector4.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/VrStereoConfig.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Wave.hpp",
+				"cmake-build-debug/_deps/raylib_cpp-src/include/Window.hpp"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "_deps/raylib_cpp-build/include",
+		"source" : "cmake-build-debug/_deps/raylib_cpp-src/include"
+	}
+}
